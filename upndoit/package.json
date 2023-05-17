@@ -1,0 +1,20 @@
+{
+  "name": "upndoit",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@formkit/themes": "^0.17.1",
+    "@formkit/vue": "^0.17.0",
+    "@popperjs/core": "^2.11.7",
+    "vue": "^3.3.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "vite": "^4.1.4"
+  }
+}
