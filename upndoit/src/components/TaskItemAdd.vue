@@ -47,10 +47,14 @@
 </template>
 
 <style>
-    ::placeholder {
-        font-family: 'Lilita One', cursive;
-        font-size: 15px;
+    h1 {
+        display: inline-flex;
     }
+
+    .template {
+        font-family: inherit;
+    }
+
     .taskcard {
         margin-top: 20px;
         background-color: rgb(186, 148, 209);
@@ -76,9 +80,11 @@
         background-color: transparent;
         border: 2px solid rgb(127, 102, 157);
         border-radius: 5px;
-        width: 25vh;
-        padding: 20px;
+        width: 30vh;
         resize: none;
+        font-family: inherit;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     #taskname::selection {
@@ -86,9 +92,9 @@
     }
 
     [data-type="submit"] .formkit-input {
-        font-family: 'Lilita One', cursive;
-        font-size: 15px;
+        font-family: inherit;
         background: rgb(127, 102, 157) !important;
+        border-radius: 5px;
     }
 
     .taskcard {

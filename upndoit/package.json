@@ -8,10 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@formkit/themes": "^0.17.1",
     "@formkit/vue": "^0.17.0",
     "@popperjs/core": "^2.11.7",
-    "vue": "^3.3.2"
+    "vue": "^3.3.2",
+    "vue-router": "^4.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
