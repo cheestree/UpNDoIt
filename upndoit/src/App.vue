@@ -1,20 +1,26 @@
 <script setup>
-import TaskItemAdd from './components/TaskItemAdd.vue';
 import NavBarForAll from './components/NavBarForAll.vue';
 </script>
 
 <template>
-  <div>
-    <NavBarForAll/>
-  </div>
-  <div>
-    <TaskItemAdd/>
-  </div>
+  <body>
+    <div class="wrapper">
+      <NavBarForAll></NavBarForAll>
+    </div>
+    <RouterView/>
+  </body>
 </template>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
-html {
+
+html, body {
   font-family: 'Lilita One', cursive;
+}
+body {
+  height: 50%;
+}
+.wrapper {
+  width: 100%;
 }
 </style>

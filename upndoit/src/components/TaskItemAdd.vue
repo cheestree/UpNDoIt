@@ -56,7 +56,8 @@
     }
 
     .taskcard {
-        margin-top: 20px;
+        color: rgb(127, 102, 157);
+        margin: 10px;
         background-color: rgb(186, 148, 209);
         width: fit-content;
         border: 4px;
@@ -64,16 +65,7 @@
         border-style: solid;
         border-color: rgb(127, 102, 157);
         padding: 10px;
-    }
-
-    .taskcard::before {
-        content: '';
-        position: absolute;
-        background: rgba(186, 148, 209, 0.25);
-        inset: 0;
-        border-radius: 5px;
-        transform: translate(15px, 15px);
-        z-index: -1;
+        box-shadow: 10px 10px ;
     }
 
     #taskname, #taskdesc {
@@ -96,8 +88,5 @@
         background: rgb(127, 102, 157) !important;
         border-radius: 5px;
     }
-
-    .taskcard {
-        color: rgb(127, 102, 157);
-    }
+    
 </style>

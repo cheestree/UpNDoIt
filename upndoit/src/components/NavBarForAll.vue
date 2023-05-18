@@ -1,9 +1,12 @@
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+</script>
+
 <template>
     <nav>
         <ul id="navbar">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <RouterLink to="/">Home</RouterLink>
+            <RouterLink to="/about">About</RouterLink>
         </ul>
     </nav>
 </template>
@@ -16,19 +19,16 @@
         background-color: #333333;
     }
 
-    #navbar li {
+    #navbar * {
         float: left;
-    }
-
-    #navbar li a {
         display: block;
         color: white;
         text-align: center;
-        padding: 16px;
+        padding: 12px;
         text-decoration: none;
     }
 
-    #navbar li a:hover {
+    #navbar *:hover {
         background-color: #111111;
     }
 </style>
