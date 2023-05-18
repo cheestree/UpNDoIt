@@ -23,6 +23,7 @@
         <FormKit type="form"
         id="tasksubmit"
         submit-label="Add"
+        @submit="createTask"
         :submit-attrs="{
             ignore: false
         }">
@@ -47,30 +48,21 @@
 </template>
 
 <style>
-    h1 {
-        display: inline-flex;
-    }
-
-    .template {
-        font-family: inherit;
-    }
-
     .taskcard {
-        color: rgb(127, 102, 157);
+        color: var(--text);
         margin: 10px;
-        background-color: rgb(186, 148, 209);
+        background-color: var(--wbg);
         width: fit-content;
-        border: 4px;
-        border-radius: 5px;
-        border-style: solid;
-        border-color: rgb(127, 102, 157);
         padding: 10px;
-        box-shadow: 10px 10px ;
+        border-radius: 6px;
+        border: 4px solid var(--wborder);
+        padding: 20px;
+        filter: drop-shadow(10px 10px 0px var(--wborder));
     }
 
     #taskname, #taskdesc {
         background-color: transparent;
-        border: 2px solid rgb(127, 102, 157);
+        border: 2px solid var(--wborder);
         border-radius: 5px;
         width: 30vh;
         resize: none;
@@ -79,13 +71,10 @@
         margin-bottom: 10px;
     }
 
-    #taskname::selection {
-        transform: translate(.25rem, -65%) scale(.8);
-    }
-
     [data-type="submit"] .formkit-input {
+        color: var(--text);
         font-family: inherit;
-        background: rgb(127, 102, 157) !important;
+        background: var(--wborder) !important;
         border-radius: 5px;
     }
     
