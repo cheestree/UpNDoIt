@@ -6,7 +6,10 @@ import { RouterLink, RouterView } from 'vue-router'
     <nav>
         <ul id="navbar">
             <RouterLink to="/about">About</RouterLink>
-            <RouterLink to="/home">Home</RouterLink>
+            <RouterLink to="/home">
+            <span class="material-symbols-outlined">developer_board</span>
+            Home
+            </RouterLink>
             <RouterLink to="/login">Login</RouterLink>
             <RouterLink to="/register">Register</RouterLink>
         </ul>
@@ -34,5 +37,13 @@ import { RouterLink, RouterView } from 'vue-router'
 
     #navbar *:hover {
         background-color: var(--nvbr-hover);
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
     }
 </style>

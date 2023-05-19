@@ -7,12 +7,8 @@
     node.hook.input((value, next) => next(Number(value)))
     }
 
-    const createTask = async (fields) => {
-        console.log(fields)
-        let res = await axios.post('http://localhost:25565/taskadd', {
-            taskname : "Hello",
-            taskdesc : "World"
-        })
+    async function createTask(fields){
+        let res = await axios.post('http://localhost:25565/taskadd', fields)
         alert(JSON.stringify(fields))
     }
 </script>

@@ -12,8 +12,6 @@ app.use(cors())
 app.use(express.json())
 
 //  Paths
-app.get('/home', services.home)
-app.get('/login', services.login)
 app.post('/taskadd', services.addtask)
 
 app.listen(port, () => console.log(`Listening at ${port}`))
