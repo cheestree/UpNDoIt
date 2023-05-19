@@ -13,5 +13,7 @@ app.use(express.json())
 
 //  Paths
 app.post('/taskadd', services.addtask)
+app.post('/login', services.login)
+app.post('/register', services.register)
 
 app.listen(port, () => console.log(`Listening at ${port}`))
