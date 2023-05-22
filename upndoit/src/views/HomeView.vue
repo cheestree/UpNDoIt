@@ -1,9 +1,8 @@
 <script setup>
-import TaskItemAdd from '../components/TaskItemAdd.vue'
 </script>
 
 <template>
-  <div class="home">
-    <TaskItemAdd/>
+  <div class="contentcontainer">
+    <h1>WIP</h1>
   </div>
 </template>

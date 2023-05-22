@@ -1,22 +1,39 @@
-<script>
+<script setup>
 import { RouterLink, RouterView } from 'vue-router'
+const frameworks = [
+  { label: 'React', value: 'react' },
+  { label: 'Vue', value: 'vue' },
+  { label: 'Angular', value: 'angular' },
+  { label: 'Svelte', value: 'svelte' }
+]
 </script>
 
 <template>
-    <nav>
-        <ul id="navbar">
-            <RouterLink to="/about">About</RouterLink>
-            <RouterLink to="/home">
-            <span class="material-symbols-outlined">developer_board</span>
-            Home
-            </RouterLink>
-            <RouterLink to="/login">Login</RouterLink>
-            <RouterLink to="/register">Register</RouterLink>
-        </ul>
-    </nav>
+  <nav id="navbarcontainer">
+      <ul id="navbar">
+        <div class="navbaritem">
+          <RouterLink to="/home">Home</RouterLink>
+        </div>
+        <div class="dropdown">
+          <div class="navbaritem">
+            <a>Services</a>
+              <div class="dropdown-content">
+                <div class="navbaritem"><RouterLink to="/apps/weather">Weather</RouterLink></div>
+                <div class="navbaritem"><RouterLink to="/apps/taskmanager">Tasks</RouterLink></div>
+              </div>
+          </div>
+        </div>
+        <div class="navbaritem">
+          <RouterLink to="/about">About</RouterLink>
+        </div>
+        <div class="navbaritem"><RouterLink to="/login">Login</RouterLink></div>
+        <div class="navbaritem"><RouterLink to="/register">Register</RouterLink></div>
+      </ul>
+  </nav>
 </template>
 <style>
     #navbar {
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.4);
         display: flex;
         width: 100%;
         list-style-type: none;
@@ -35,10 +52,6 @@ import { RouterLink, RouterView } from 'vue-router'
         text-decoration: none;
     }
 
-    #navbar *:hover {
-        background-color: var(--nvbr-hover);
-    }
-
     .material-symbols-outlined {
         font-variation-settings:
         'FILL' 0,
@@ -47,4 +60,49 @@ import { RouterLink, RouterView } from 'vue-router'
         'opsz' 48
     }
 
+    .dropdown {
+      float: left;
+      overflow: hidden;
+    }
+
+    .dropdown .dropbtn {
+      font-size: 16px;
+      border: none;
+      outline: none;
+      color: white;
+      padding: 14px 16px;
+      background-color: var(--nvbr);
+      font-family: inherit; /* Important for vertical align on mobile phones */
+      margin: 0; /* Important for vertical align on mobile phones */
+    }
+
+    .navbar a:hover, .dropdown:hover .dropbtn {
+      background-color: red;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--nvbr);
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      float: none;
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+
+    .dropdown-content a:hover {
+      background-color: var(--nvbr-hover);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
 </style>

@@ -2,11 +2,12 @@
     import axios from 'axios';
     async function login(fields){
       let res = await axios.post('http://localhost:25565/login', fields)
-      alert(JSON.stringify(fields))
+      alert(JSON.stringify(res.data))
     }
 </script>
 
 <template>
+  <div class="contentcontainer">
     <div class="logincard">
         <h1>Login</h1>
         <FormKit type="form"
@@ -36,15 +37,16 @@
         <small>Don't have an account? <RouterLink to="/register">Make one here!
         </RouterLink></small>
     </div>
-  </template>
-  
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
+  </div>
+</template>
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
   }
-  </style>
+}
+</style>
   
