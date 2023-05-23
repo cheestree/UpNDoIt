@@ -1,11 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-const frameworks = [
-  { label: 'React', value: 'react' },
-  { label: 'Vue', value: 'vue' },
-  { label: 'Angular', value: 'angular' },
-  { label: 'Svelte', value: 'svelte' }
-]
 </script>
 
 <template>
@@ -13,15 +7,6 @@ const frameworks = [
       <ul id="navbar">
         <div class="navbaritem">
           <RouterLink to="/home">Home</RouterLink>
-        </div>
-        <div class="dropdown">
-          <div class="navbaritem">
-            <a>Services</a>
-              <div class="dropdown-content">
-                <div class="navbaritem"><RouterLink to="/apps/weather">Weather</RouterLink></div>
-                <div class="navbaritem"><RouterLink to="/apps/taskmanager">Tasks</RouterLink></div>
-              </div>
-          </div>
         </div>
         <div class="navbaritem">
           <RouterLink to="/about">About</RouterLink>

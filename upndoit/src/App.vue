@@ -13,3 +13,9 @@ import NavBarForAll from './components/NavBarForAll.vue';
     </div>
   </body>
 </template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>

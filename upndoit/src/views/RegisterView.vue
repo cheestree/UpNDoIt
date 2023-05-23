@@ -1,9 +1,28 @@
 <script setup>
-    import axios from 'axios';
-    async function register(fields){
-        let res = await axios.post('http://localhost:25565/register', fields)
-        alert(JSON.stringify(res.data))
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  async function register(fields) {
+    try {
+      let res = await fetch('http://localhost:25565/register', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fields),
+      });
+      if (res) {
+        router.push('/home');
+      } else {
+        alert("Something went wrong making your account");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while making your account");
     }
+  }
 </script>
 
 <template>
@@ -19,8 +38,8 @@
         }">
             <FormKit
                 type="text"
-                name="registername"
-                id="registername"
+                name="username"
+                id="username"
                 validation="required"
                 label="Username"
                 placeholder="Insert your username"
@@ -28,8 +47,8 @@
             <div class="password">
               <FormKit
                 type="password"
-                name="registerpass"
-                id="registerpass"
+                name="password"
+                id="password"
                 label="Password"
                 validation="required|length:6|matches:/[^a-zA-Z]/"
                 :validation-messages="{
@@ -39,8 +58,8 @@
               />
               <FormKit
                 type="password"
-                name="registerpass_confirm"
-                id="registerpass"
+                name="password_confirm"
+                id="password"
                 label="Confirm password"
                 placeholder="Confirm password"
                 validation="required|confirm"
@@ -49,7 +68,7 @@
             <FormKit
               type="date"
               name="date"
-              id="registerdate"
+              id="date"
               label="Date of birth"
               :validation="[['required'], ['date_before']]">
             </FormKit>
@@ -82,7 +101,7 @@
         filter: drop-shadow(10px 10px 0px var(--wborder));
     }
 
-    #registername, #registerpass, #registerdate {
+    #username, #password, #date {
         background-color: transparent;
         border: 2px solid var(--wborder);
         border-radius: 5px;

@@ -1,8 +1,23 @@
 <script setup>
     import axios from 'axios';
+    import { useRouter } from 'vue-router';
+
+    const router = useRouter();
+
     async function login(fields){
-      let res = await axios.post('http://localhost:25565/login', fields)
-      alert(JSON.stringify(res.data))
+      console.log(fields)
+      let res = await fetch('http://localhost:25565/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fields),
+      });
+      if(res.status == '200'){
+        router.push('/auth/home');
+      } else {
+        alert("Something went wrong making your account");
+      }
     }
 </script>
 
@@ -19,16 +34,16 @@
         }">
             <FormKit
                 type="text"
-                name="loginname"
-                id="loginname"
+                name="username"
+                id="username"
                 validation="required|not:Admin"
                 label="Username"
                 placeholder="Insert your username"
             />
             <FormKit
                 type="text"
-                name="loginpass"
-                id="loginpass"
+                name="password"
+                id="password"
                 validation="required|not:Admin"
                 label="Password"
                 placeholder="Insert your password"

@@ -1,8 +1,5 @@
 import url from 'url'
-import db from '../database/account-db.mjs'
-import { use } from 'chai';
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import db from '../database/accountdb.mjs'
 
 export default function(){
     return {
@@ -13,24 +10,24 @@ export default function(){
 
     async function login(req, rsp){
         let data = req.body
-        console.log(data)
-        rsp.send('Data Received: ' + JSON.stringify(data));
+        let userfound = await db().userexists(data.username)
+        if (userfound && db().matchpass(data.password, userfound.password)) {
+            rsp.status(200).json({ message: 'Login successful'});
+        } else {
+            rsp.status(401).json({ message: 'Invalid username or password'});
+        }
     }
 
     async function register(req, rsp){
         let data = req.body
+        console.log(data)
         let isSuccess = await db().createaccount(data)
-        console.log(isSuccess)
-        if(isSuccess){
-            rsp.send("Account created successfully!")
-        }else{
-            rsp.send("There was an error creating your account!")
-        }
+        rsp.send(isSuccess)
     }
 
     async function addtask(req, rsp){
         let data = req.body
         console.log(data)
         rsp.send('Data Received: ' + JSON.stringify(data));
-    }
+    }    
 }

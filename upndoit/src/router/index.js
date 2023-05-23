@@ -4,9 +4,10 @@ import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import WeatherView from '../views/WeatherView.vue';
 import TaskView from '../views/TaskView.vue'
+import AuthHomeView from '../views/HomeAuthView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/home',
@@ -24,12 +25,17 @@ const router = createRouter({
       component: RegisterView
     },
     {
-      path: '/apps/weather',
+      path: '/auth/home',
+      name: 'authhome',
+      component: AuthHomeView
+    },
+    {
+      path: '/auth/apps/weather',
       name: 'weather',
       component: WeatherView
     },
     {
-      path: '/apps/taskmanager',
+      path: '/auth/apps/taskmanager',
       name: 'taskmanager',
       component: TaskView
     },
