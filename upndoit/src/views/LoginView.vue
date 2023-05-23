@@ -11,6 +11,7 @@
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // This here
         body: JSON.stringify(fields),
       });
       if(res.status == '200'){

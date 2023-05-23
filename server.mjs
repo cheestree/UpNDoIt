@@ -36,10 +36,10 @@ app.post('/register', services.register)
 app.listen(port, () => console.log(`Listening at ${port}`))
 
 function checkSessionAndExecute(req, res, next) {
-    if (req.session && req.session.user) {
-      // Session and user data exist, proceed to the next middleware or execute the function
-      next(); // Proceed to the next middleware or function
-    } else {
-      res.status(401).json({ message: "Unauthorized" });
-    }
+  if (req.session && req.session.user) {
+    // Session and user data exist, proceed to the next middleware or execute the function
+    next(); // Proceed to the next middleware or function
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
   }
+}
