@@ -14,7 +14,11 @@ const port = 25565
 const services = webservices()
 const upload = multer()
 
-app.use(cors())
+app.use(cors({
+  credentials: true,
+  origin: 'http://127.0.0.1:5173',
+  exposedHeaders: ["set-cookie"]
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -29,17 +33,8 @@ app.use(session({
 }))
 
 //  Paths
-app.post('/taskadd', checkSessionAndExecute, services.addtask)
+app.post('/taskadd', services.addtask)
 app.post('/login', services.login)
 app.post('/register', services.register)
 
 app.listen(port, () => console.log(`Listening at ${port}`))
-
-function checkSessionAndExecute(req, res, next) {
-  if (req.session && req.session.user) {
-    // Session and user data exist, proceed to the next middleware or execute the function
-    next(); // Proceed to the next middleware or function
-  } else {
-    res.status(401).json({ message: "Unauthorized" });
-  }
-}

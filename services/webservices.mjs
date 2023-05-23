@@ -12,12 +12,13 @@ export default function(){
     async function login(req, rsp){
         let data = req.body
         let userfound = await db().userexists(data.username)
-        if (userfound && db().matchpass(data.password, userfound.password)){
+        if (userfound && await db().matchpass(data.password, userfound.password)){
             const accessToken = createToken({id: userfound.id})
-            rsp.cookie('test', accessToken, {httpOnly: true})
+            //  rsp.cookie('test', accessToken, {httpOnly: true})
             rsp.status(200).json({ success: true });
         } else {
             rsp.status(401).json({ message: 'Invalid username or password'});
+            return
         }
     }
 

@@ -12,7 +12,10 @@ export default defineConfig({
     }
   },
   devServer: {
-    proxy: 'https://localhost:25565',
-    secure: false,
+    proxy: {
+      '/': {
+        origin: 'http://localhost:25565'
+      }
+    }
   }
 })
