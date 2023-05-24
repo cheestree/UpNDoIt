@@ -1,155 +1,132 @@
 <script setup>
-  import axios from 'axios';
-  import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-  const router = useRouter();
+const router = useRouter();
 
-  async function register(fields) {
-    try {
-      let res = await fetch('http://localhost:25565/register', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(fields),
-      });
-      if (res) {
-        router.push('/home');
-      } else {
-        alert("Something went wrong making your account");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("An error occurred while making your account");
+async function register(fields) {
+  try {
+    let res = await fetch('http://localhost:25565/register', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fields),
+    });
+    if (res) {
+      router.push('/home');
+    } else {
+      alert("Something went wrong making your account");
     }
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while making your account");
   }
+}
 </script>
 
 <template>
   <div class="contentcontainer">
     <div class="registercard">
-        <h1>Register</h1>
-        <FormKit type="form"
-        id="registersubmit"
-        submit-label="Register"
-        @submit="register"
-        :submit-attrs="{
-            ignore: false
-        }">
-            <FormKit
-                type="text"
-                name="username"
-                id="username"
-                validation="required"
-                label="Username"
-                placeholder="Insert your username"
-            />
-            <div class="password">
-              <FormKit
-                type="password"
-                name="password"
-                id="password"
-                label="Password"
-                validation="required|length:6|matches:/[^a-zA-Z]/"
-                :validation-messages="{
-                  matches: 'Please include at least one symbol',
-                }"
-                placeholder="Your password"
-              />
-              <FormKit
-                type="password"
-                name="password_confirm"
-                id="password"
-                label="Confirm password"
-                placeholder="Confirm password"
-                validation="required|confirm"
-              />
-            </div>
-            <FormKit
-              type="date"
-              name="date"
-              id="date"
-              label="Date of birth"
-              :validation="[['required'], ['date_before']]">
-            </FormKit>
+      <h1>Register</h1>
+      <FormKit type="form" id="registersubmit" submit-label="Register" @submit="register" :submit-attrs="{
+        ignore: false
+      }">
+        <FormKit type="text" name="username" id="username" validation="required" label="Username"
+          placeholder="Insert your username" />
+        <div class="password">
+          <FormKit type="password" name="password" id="password" label="Password"
+            validation="required|length:6|matches:/[^a-zA-Z]/" :validation-messages="{
+                matches: 'Please include at least one symbol',
+              }" placeholder="Your password" />
+          <FormKit type="password" name="password_confirm" id="password" label="Confirm password"
+            placeholder="Confirm password" validation="required|confirm" />
+        </div>
+        <FormKit type="date" name="date" id="date" label="Date of birth" :validation="[['required'], ['date_before']]">
         </FormKit>
-        <small>Already have an account? <RouterLink to="/login">Login here!
+      </FormKit>
+      <small>Already have an account? <RouterLink to="/login">Login here!
         </RouterLink></small>
     </div>
   </div>
-  </template>
+</template>
   
-  <style>
-    .contentcontainer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+<style>
+.contentcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-    .registercard {
-        transition: 1s ease-in 0.5s 1 scale-up-center;
-        -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-	        animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-        color: var(--text);
-        margin: 10px;
-        margin-top: 10%;
-        background-color: var(--wbg);
-        width: fit-content;
-        border-radius: 6px;
-        border: 4px solid var(--wborder);
-        padding: 20px;
-        filter: drop-shadow(10px 10px 0px var(--wborder));
-    }
+.registercard {
+  transition: 1s ease-in 0.5s 1 scale-up-center;
+  -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  color: var(--text);
+  margin: 10px;
+  margin-top: 10%;
+  background-color: var(--wbg);
+  width: fit-content;
+  border-radius: 6px;
+  border: 4px solid var(--wborder);
+  padding: 20px;
+  filter: drop-shadow(10px 10px 0px var(--wborder));
+}
 
-    #username, #password, #date {
-        background-color: transparent;
-        border: 2px solid var(--wborder);
-        border-radius: 5px;
-        width: 30vh;
-        resize: none;
-        font-family: inherit;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
+#username,
+#password,
+#date {
+  background-color: transparent;
+  border: 2px solid var(--wborder);
+  border-radius: 5px;
+  width: 30vh;
+  resize: none;
+  font-family: inherit;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
-    [data-type="submit"] .formkit-input {
-        color: var(--text);
-        font-family: inherit;
-        background: var(--wborder) !important;
-        border-radius: 5px;
-    }
+[data-type="submit"] .formkit-input {
+  color: var(--text);
+  font-family: inherit;
+  background: var(--wborder) !important;
+  border-radius: 5px;
+}
 
-        /* ----------------------------------------------
-    * Generated by Animista on 2023-5-19 14:41:29
-    * Licensed under FreeBSD License.
-    * See http://animista.net/license for more info. 
-    * w: http://animista.net, t: @cssanimista
-    * ---------------------------------------------- */
+/* ----------------------------------------------
+  * Generated by Animista on 2023-5-19 14:41:29
+  * Licensed under FreeBSD License.
+  * See http://animista.net/license for more info. 
+  * w: http://animista.net, t: @cssanimista
+  * ---------------------------------------------- */
 
-    /**
-    * ----------------------------------------
-    * animation scale-up-center
-    * ----------------------------------------
-    */
-    @-webkit-keyframes scale-up-center {
-      0% {
-        -webkit-transform: scale(0.5);
-                transform: scale(0.5);
-      }
-      100% {
-        -webkit-transform: scale(1);
-                transform: scale(1);
-      }
-    }
-    @keyframes scale-up-center {
-      0% {
-        -webkit-transform: scale(0.5);
-                transform: scale(0.5);
-      }
-      100% {
-        -webkit-transform: scale(1);
-                transform: scale(1);
-      }
-    }
-  </style>
+/**
+  * ----------------------------------------
+  * animation scale-up-center
+  * ----------------------------------------
+  */
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+</style>
   

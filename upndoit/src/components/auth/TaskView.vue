@@ -4,10 +4,9 @@ import TaskItemAdd from './TaskItemAdd.vue'
 
 <template>
   <div class="contentcontainer">
-    <TaskItemAdd/>
+    <TaskItemAdd />
   </div>
 </template>
   
-<style>
-</style>
+<style></style>
   

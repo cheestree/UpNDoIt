@@ -6,9 +6,9 @@ const router = createRouter({
   mode: 'history',
   history: createWebHistory(),
   routes: [
-    { path: '/home', name: 'home', component: HomeView, meta: { disallowAuthed: true }  },
-    { path: '/about', name: 'about', component: HomeView, meta: { disallowAuthed: true }  },
-    { path: '/login', name: 'login', component: HomeView, meta: { disallowAuthed: true }  },
+    { path: '/home', name: 'home', component: HomeView, meta: { disallowAuthed: true } },
+    { path: '/about', name: 'about', component: HomeView, meta: { disallowAuthed: true } },
+    { path: '/login', name: 'login', component: HomeView, meta: { disallowAuthed: true } },
     { path: '/register', name: 'register', component: HomeView, meta: { disallowAuthed: true } },
     { path: '/auth/home', name: 'authhome', component: AuthHomeView, meta: { requiresAuth: true } },
     { path: '/auth/apps/weather', name: 'weather', component: AuthHomeView, meta: { requiresAuth: true } },
@@ -27,12 +27,12 @@ router.beforeEach(async (to, from, next) => {
   let response = await res1.json()
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (requiresAuth && !response.success){
+  if (requiresAuth && !response.success) {
     next('/login')
-  }else{
-    if(response.success && !requiresAuth){
+  } else {
+    if (response.success && !requiresAuth) {
       next('/auth/home')
-    }else{
+    } else {
       next();
     }
   }
