@@ -18,11 +18,12 @@ export default function () {
     })
 
     return {
-        matchpass : matchPassword,
-        userexists : userExists,
-        createaccount : createAccount,
-        addtask : addtask,
-        gettasks : gettasks
+        matchpass: matchPassword,
+        userexists: userExists,
+        createaccount: createAccount,
+        taskadd: taskadd,
+        taskgetall: taskgetall,
+        taskdelete: taskdelete
     }
 
     async function matchPassword(password, hashPassword) {
@@ -30,7 +31,6 @@ export default function () {
             if (!password || !hashPassword) {
                 throw new Error('Missing password or hashPassword argument');
             }
-
             const match = await bcrypt.compare(password, hashPassword);
             return match;
         } catch (error) {
@@ -41,9 +41,7 @@ export default function () {
 
     async function userExists(info) {
         await client.connect();
-        const data = await client.query(
-            `select * from accounts where username=$1`,
-            [info])
+        const data = await client.query(`select * from accounts where username=$1`, [info])
         if (data.rowCount == 0) {
             await client.end()
             return false;
@@ -70,13 +68,13 @@ export default function () {
         return success
     }
 
-    async function addtask(info){
+    async function taskadd(info) {
         let success = true
         try {
             await client.connect();
             await client.query('BEGIN')
-            const queryText = `insert into tasks(id, taskname, taskdescription, date) values ($1, $2, $3, $4)`
-            await client.query(queryText, [info.userid, info.taskname, info.taskdesc, info.date])
+            const queryText = `insert into tasks(taskuserid, taskname, taskdescription, taskdate) values ($1, $2, $3, $4)`
+            await client.query(queryText, [info.taskuserid, info.taskname, info.taskdesc, info.taskdate])
             await client.query('COMMIT')
         } catch (e) {
             await client.query('ROLLBACK')
@@ -87,8 +85,25 @@ export default function () {
         return success
     }
 
-    async function gettasks(info){
-        const queryText = `select * from tasks where id=$1`
+    async function taskdelete(info){
+        let success = true
+        try {
+            await client.connect();
+            await client.query('BEGIN')
+            const queryText = `delete from tasks where taskid=$1`
+            await client.query(queryText, [info])
+            await client.query('COMMIT')
+        } catch (e) {
+            await client.query('ROLLBACK')
+            success = false
+        } finally {
+            await client.end()
+        }
+        return success
+    }
+
+    async function taskgetall(info) {
+        const queryText = `select * from tasks where taskuserid=$1`
         await client.connect();
         const data = await client.query(
             queryText,

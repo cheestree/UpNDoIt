@@ -32,7 +32,8 @@ app.post('/logout', services.logout)
 app.post('/checkauth', services.checkauth)
 
 //  Paths
-app.get('/gettasks', services.gettasks)
-app.post('/taskadd', services.addtask)
+app.get('/taskgetall', services.taskgetall)
+app.post('/taskadd', services.taskadd)
+app.post('/taskdelete', services.taskdelete)
 
 app.listen(port, () => console.log(`Listening at ${port}`))
