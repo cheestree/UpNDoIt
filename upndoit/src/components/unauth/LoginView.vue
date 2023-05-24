@@ -5,7 +5,6 @@
     const router = useRouter();
 
     async function login(fields){
-      console.log(fields)
       let res = await fetch('http://localhost:25565/login', {
         method: "POST",
         headers: {

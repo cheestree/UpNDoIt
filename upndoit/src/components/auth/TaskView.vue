@@ -1,5 +1,5 @@
 <script setup>
-import TaskItemAdd from '../components/TaskItemAdd.vue'
+import TaskItemAdd from './TaskItemAdd.vue'
 </script>
 
 <template>

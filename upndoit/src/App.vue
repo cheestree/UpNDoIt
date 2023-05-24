@@ -1,5 +1,4 @@
 <script setup>
-import NavBarForAll from './components/NavBarForAll.vue';
 </script>
 
 <template>
@@ -8,7 +7,6 @@ import NavBarForAll from './components/NavBarForAll.vue';
   </head>
   <body>
     <div id="#app">
-      <NavBarForAll></NavBarForAll>
       <RouterView/>
     </div>
   </body>

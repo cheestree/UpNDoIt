@@ -1,30 +1,36 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+const router = useRouter();
+
+async function logout(){
+  let res = await fetch('http://localhost:25565/logout', { method: 'POST', credentials: "include" })
+  console.log(res)
+  router.push('/home');
+}
 </script>
 
 <template>
   <nav id="navbarcontainer">
       <ul id="navbar">
         <div class="navbaritem">
-          <RouterLink to="/home">Home</RouterLink>
+          <RouterLink to="/auth/home">Home</RouterLink>
         </div>
         <div class="dropdown">
           <div class="navbaritem">
             <a>Services</a>
               <div class="dropdown-content">
-                <div class="navbaritem"><RouterLink to="/apps/weather">Weather</RouterLink></div>
-                <div class="navbaritem"><RouterLink to="/apps/taskmanager">Tasks</RouterLink></div>
+                <div class="navbaritem"><RouterLink to="/auth/apps/weather">Weather</RouterLink></div>
+                <div class="navbaritem"><RouterLink to="/auth/apps/taskmanager">Tasks</RouterLink></div>
               </div>
           </div>
         </div>
         <div class="navbaritem">
-          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/home" @click="logout()">Logout</RouterLink>
         </div>
-        <div class="navbaritem"><RouterLink to="/login">Login</RouterLink></div>
-        <div class="navbaritem"><RouterLink to="/register">Register</RouterLink></div>
       </ul>
   </nav>
 </template>
+
 <style>
     #navbar {
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.4);

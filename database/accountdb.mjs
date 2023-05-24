@@ -53,8 +53,6 @@ export default function(){
         let success = true
         const salt = await bcrypt.genSalt(10);
         const hashpass = await bcrypt.hash(info.password, salt);
-        console.log(info)
-        console.log(hashpass)
         try{
             await client.connect(); 
             await client.query('BEGIN')
