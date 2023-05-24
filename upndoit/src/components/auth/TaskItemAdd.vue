@@ -1,14 +1,14 @@
 <script setup>
 import axios from 'axios';
 
-const castRangeToNumber = (node) => {
-    // We add a check to add the cast only to range inputs
-    if (node.props.type !== 'range') return
-    node.hook.input((value, next) => next(Number(value)))
-}
-
 async function createTask(fields) {
-    let res = await axios.post('http://localhost:25565/taskadd', fields)
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    fields.date = today
+    let res = await axios.post('http://localhost:25565/taskadd', 
+        fields, 
+        { withCredentials: true }
+    )
     alert(JSON.stringify(fields))
 }
 </script>

@@ -25,11 +25,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
 
-//  Paths
-app.post('/checkauth', services.checkauth)
-app.post('/logout', services.logout)
-app.post('/taskadd', services.addtask)
+//  User auth
 app.post('/login', services.login)
 app.post('/register', services.register)
+app.post('/logout', services.logout)
+app.post('/checkauth', services.checkauth)
+
+//  Paths
+app.get('/gettasks', services.gettasks)
+app.post('/taskadd', services.addtask)
 
 app.listen(port, () => console.log(`Listening at ${port}`))

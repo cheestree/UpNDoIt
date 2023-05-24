@@ -18,9 +18,11 @@ export default function () {
     })
 
     return {
-        matchpass: matchPassword,
-        userexists: userExists,
-        createaccount: createAccount
+        matchpass : matchPassword,
+        userexists : userExists,
+        createaccount : createAccount,
+        addtask : addtask,
+        gettasks : gettasks
     }
 
     async function matchPassword(password, hashPassword) {
@@ -66,5 +68,35 @@ export default function () {
             await client.end()
         }
         return success
+    }
+
+    async function addtask(info){
+        let success = true
+        try {
+            await client.connect();
+            await client.query('BEGIN')
+            const queryText = `insert into tasks(id, taskname, taskdescription, date) values ($1, $2, $3, $4)`
+            await client.query(queryText, [info.userid, info.taskname, info.taskdesc, info.date])
+            await client.query('COMMIT')
+        } catch (e) {
+            await client.query('ROLLBACK')
+            success = false
+        } finally {
+            await client.end()
+        }
+        return success
+    }
+
+    async function gettasks(info){
+        const queryText = `select * from tasks where id=$1`
+        await client.connect();
+        const data = await client.query(
+            queryText,
+            [info])
+        if (data.rowCount == 0) {
+            await client.end()
+            return false;
+        }
+        return data.rows;
     }
 }

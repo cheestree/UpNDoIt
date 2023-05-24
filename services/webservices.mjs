@@ -1,5 +1,6 @@
 import db from '../database/accountdb.mjs'
 import jwt from 'jsonwebtoken'
+import jwtDecode from 'jwt-decode'
 
 export default function () {
     return {
@@ -8,19 +9,18 @@ export default function () {
         logout: logout,
         register: register,
         checkauth: checkauth,
-        getcookie: getcookie
+        gettasks: gettasks
     }
 
     async function login(req, rsp) {
         let data = req.body
         let userfound = await db().userexists(data.username)
         if (userfound && await db().matchpass(data.password, userfound.password)) {
-            const accessToken = createToken({ id: userfound.id })
-            rsp.cookie('customcookie', accessToken, { httpOnly: true, secure: false, SameSite: "none" })
+            const accessToken = createToken({ 'id': userfound.userid })
+            rsp.cookie('customcookie', accessToken, { httpOnly: true, secure: true, SameSite: "none" })
             rsp.status(200).json({ success: true });
         } else {
             rsp.status(401).json({ message: 'Invalid username or password' });
-            return
         }
     }
 
@@ -41,16 +41,28 @@ export default function () {
     }
 
     async function addtask(req, rsp) {
-        let data = req.body
-        rsp.send('Data Received: ' + JSON.stringify(data));
+        let payload = getpayload(req)
+        req.body.userid = payload.id
+        let isSuccess = await db().addtask(req.body)
+        rsp.status(200).json({ success: isSuccess })
     }
 
-    async function getcookie(req, rsp) {
-        rsp.send(req.cookies)
+    async function gettasks(req, rsp) {
+        let payload = getpayload(req)
+        let rows = db().gettasks(payload.id)
+        console.log(rows)
+        rsp.status(200)
+    }
+
+    async function getpayload(req) {
+        let cookie = req.cookies['customcookie']
+        let tokens = cookie.split('.')
+        let payload = JSON.parse(Buffer.from(tokens[1], 'base64').toString('utf8'))
+        return payload
     }
 
     function createToken(payload) {
-        return jwt.sign(payload, 'keyboardcat', { expiresIn: '30min' })
+        return jwt.sign(payload, 'keyboardcat', { expiresIn: '1h' })
     }
 
     function verifyToken(token) {
@@ -60,4 +72,5 @@ export default function () {
             return null
         }
     }
+    
 }

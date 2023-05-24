@@ -30,7 +30,7 @@ async function login(fields) {
       }">
         <FormKit type="text" name="username" id="username" validation="required|not:Admin" label="Username"
           placeholder="Insert your username" />
-        <FormKit type="text" name="password" id="password" validation="required|not:Admin" label="Password"
+        <FormKit type="password" name="password" id="password" validation="required|not:Admin" label="Password"
           placeholder="Insert your password" />
       </FormKit>
       <small>Don't have an account? <RouterLink to="/register">Make one here!
