@@ -1,5 +1,5 @@
 import db from '../database/accountdb.mjs'
-import jwt from 'jsonwebtoken'
+import * as utils from './utils.mjs'
 
 export default function () {
     return {
@@ -9,6 +9,7 @@ export default function () {
         taskadd: taskadd,
         taskgetall: taskgetall,
         taskdelete: taskdelete,
+        taskmodify: taskmodify,
         checkauth: checkauth,
     }
     
@@ -52,35 +53,18 @@ export default function () {
     async function taskdelete(req, rsp){
         let rows = await db().taskdelete(req.body.taskid)
         if(rows == false) rsp.status(404)
-        rsp.status(200)
+        rsp.status(200).json({ success: rows })
+    }
+
+    async function taskmodify(req, rsp){
+        let rows = await db().taskmodify(req.body)
+        if(rows == false) rsp.status(404)
+        rsp.status(200).json({ success: rows })
     }
 
     async function checkauth(req, rsp) {
         let isGood = verifyToken(req.cookies['customcookie'])
         rsp.status(200).json({ success: isGood, cookies: req.cookies['customcookie'] })
-    }
-
-    function getpayload(req) {
-        let cookie = req.cookies['customcookie']
-        let tokens = cookie.split('.')
-        let payload = JSON.parse(Buffer.from(tokens[1], 'base64').toString('utf8'))
-        return payload
-    }
-
-    function createToken(payload) {
-        return jwt.sign(payload, 'keyboardcat', { expiresIn: '1h' })
-    }
-
-    function verifyToken(token) {
-        if (token != null) {
-            return jwt.verify(token, 'keyboardcat')
-        } else {
-            return null
-        }
-    }
-
-    function parsePostgreSQLTimestamp(timestamp) {
-        return timestamp.toISOString().replace('T', ' ').replace('Z', '').slice(0, 16)
     }
     
 }

@@ -1,15 +1,3 @@
-<script setup>
-import axios from 'axios';
-
-async function createTask(fields) {
-  const timeElapsed = Date.now();
-  const today = new Date(timeElapsed);
-  fields.taskdate = today
-  await axios.post('http://localhost:25565/taskadd', fields,{ withCredentials: true })
-  window.location.reload()
-}
-</script>
-
 <script>
 export default {
   data() {
@@ -21,13 +9,29 @@ export default {
     this.tasks = await this.getTasks()
   },
   methods: {
+    async addTask(fields) {
+      const today = new Date(Date.now());
+      fields.taskdate = today
+      await fetch('http://localhost:25565/taskadd', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(fields)
+      })
+      this.tasks = await this.getTasks()
+    },
     async getTasks() {
-      let tasksget = await fetch('http://localhost:25565/taskgetall', { credentials: "include", })
+      let tasksget = await fetch('http://localhost:25565/taskgetall', { credentials: "include" })
       const tasks = await tasksget.json()
       return tasks
     },
-    async deleteTask(taskid){
-      await axios.post('http://localhost:25565/taskdelete', { taskid: taskid }, { withCredentials: true })
+    async deleteTask(taskid) {
+      await fetch('http://localhost:25565/taskdelete', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ taskid: taskid })
+      })
+      this.tasks = await this.getTasks()
     }
   }
 }
@@ -36,8 +40,9 @@ export default {
 <template>
   <div class="contentcontainer">
     <div class="taskcard">
+      <TransitionGroup name="taskcardform" tag="div" class="taskcardanimate">
       <h1>New Task</h1>
-      <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="createTask" :submit-attrs="{
+      <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="addTask" :submit-attrs="{
         ignore: false
       }">
         <FormKit type="text" name="taskname" id="taskname" validation="required|not:Admin" label="Task name"
@@ -45,14 +50,17 @@ export default {
         <FormKit type="textarea" name="taskdesc" id="taskdesc" validation="required|not:Admin" label="Task description"
           placeholder="Do homework" />
       </FormKit>
+      </TransitionGroup>
     </div>
     <div class="taskcontainer">
-      <div class="taskindiv" v-for="(task) in tasks" :key="task.taskid">
-        <h1>{{ task.taskname }}</h1>
-        <p>{{ task.taskdescription }}</p>
-        <p>{{ task.taskdate }}</p>
-        <button @click="deleteTask(task.taskid)">Delete</button>
-      </div>
+      <TransitionGroup name="list" tag="div" class="taskcontaineranimate">
+        <div class="taskindiv" v-for="(task) in tasks" :key="task.taskid">
+          <div id="taskindivname"><h1>{{ task.taskname }}</h1></div>
+          Description : <div id="taskindivdesc">{{ task.taskdescription }}</div>
+          Made in<p>{{ task.taskdate }}</p>
+          <button id="taskdelete" @click="deleteTask(task.taskid)">Delete</button>
+        </div>
+      </TransitionGroup>
     </div>
   </div>
 </template>
@@ -66,22 +74,21 @@ export default {
   align-content: center;
 }
 
-.taskcontainer {
+.taskcontainer, .taskcontaineranimate {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: row;
   align-content: center;
+  width: 100%;
 }
 
 .taskindiv {
-  transition: 1s ease-in 0.5s 1 scale-up-center;
-  -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-  animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   color: var(--text);
   margin: 14px;
   background-color: var(--wbg);
   width: fit-content;
+  width: 200px;
   padding: 10px;
   border-radius: 6px;
   border: 4px solid var(--wborder);
@@ -89,11 +96,35 @@ export default {
   filter: drop-shadow(10px 10px 0px var(--wborder));
 }
 
+#taskindivdesc {
+  overflow-wrap: break-word;
+  height: 100px;
+  overflow-y: auto;
+}
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to
+ {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
+}
 /**/
 .taskcard {
   transition: 1s ease-in 0.5s 1 scale-up-center;
-  -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-  animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  -webkit-animation: scale-up-center 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: scale-up-center 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   color: var(--text);
   margin: 10px;
   background-color: var(--wbg);
@@ -118,11 +149,32 @@ export default {
   margin-bottom: 10px;
 }
 
-[data-type="submit"] .formkit-input {
+[data-type="submit"] .formkit-input,
+#taskdelete {
   color: var(--text);
   font-family: inherit;
   background: var(--wborder) !important;
   border-radius: 5px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 /* ----------------------------------------------
@@ -161,4 +213,3 @@ export default {
   }
 }
 </style>
-  

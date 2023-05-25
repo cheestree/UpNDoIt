@@ -1,5 +1,4 @@
 <script setup>
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -8,9 +7,7 @@ async function register(fields) {
   try {
     let res = await fetch('http://localhost:25565/register', {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fields),
     });
     if (res) {

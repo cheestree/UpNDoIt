@@ -1,10 +1,9 @@
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 const router = useRouter();
 
 async function logout() {
-  let res = await fetch('http://localhost:25565/logout', { method: 'POST', credentials: "include" })
-  console.log(res)
+  await fetch('http://localhost:25565/logout', { method: 'POST', credentials: "include" })
   router.push('/home');
 }
 </script>
@@ -17,7 +16,7 @@ async function logout() {
       </div>
       <div class="dropdown">
         <div class="navbaritem">
-          <a>Services</a>
+          <a style="user-select:none">Services<span class="material-symbols-outlined">expand_more</span></a>
           <div class="dropdown-content">
             <div class="navbaritem">
               <RouterLink to="/auth/apps/weather">Weather</RouterLink>

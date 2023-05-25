@@ -23,7 +23,8 @@ export default function () {
         createaccount: createAccount,
         taskadd: taskadd,
         taskgetall: taskgetall,
-        taskdelete: taskdelete
+        taskdelete: taskdelete,
+        taskmodify: taskmodify
     }
 
     async function matchPassword(password, hashPassword) {
@@ -102,8 +103,25 @@ export default function () {
         return success
     }
 
+    async function taskmodify(info) {
+        let success = true
+        try {
+            await client.connect();
+            await client.query('BEGIN')
+            const queryText = `update tasks set taskname=$2 taskdescription=$3 where taskid=$1`
+            await client.query(queryText, [info.taskid, info.taskname, info.taskdesc])
+            await client.query('COMMIT')
+        } catch (e) {
+            await client.query('ROLLBACK')
+            success = false
+        } finally {
+            await client.end()
+        }
+        return success
+    }
+
     async function taskgetall(info) {
-        const queryText = `select * from tasks where taskuserid=$1`
+        const queryText = `select * from tasks where taskuserid=$1 order by taskdate desc   `
         await client.connect();
         const data = await client.query(
             queryText,

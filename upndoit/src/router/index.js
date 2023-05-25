@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AuthHomeView from '../views/HomeAuthView.vue'
+import NProgress from 'nprogress'
 
 const router = createRouter({
   mode: 'history',
@@ -22,20 +23,26 @@ router.beforeEach(async (to, from, next) => {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include", // This here
+    credentials: "include",
   })
   let response = await res1.json()
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-
-  if (requiresAuth && !response.success) {
-    next('/login')
-  } else {
-    if (response.success && !requiresAuth) {
-      next('/auth/home')
+  if(to.name){
+    NProgress.start()
+    if (requiresAuth && !response.success) {
+      next('/login')
     } else {
-      next();
+      if (!requiresAuth && response.success) {
+        next('/auth/home')
+      } else {
+        next();
+      }
     }
   }
 });
+
+router.afterEach((to, from) => {
+  NProgress.done()
+})
 
 export default router
