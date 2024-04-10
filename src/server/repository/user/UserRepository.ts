@@ -17,7 +17,7 @@ class UserRepository implements UserRepositoryInterface {
         });
     }
 
-    async getUserByUsername(username: string): Promise<User> {
+    async getUserByUsername(username: string): Promise<User | null> {
         try {
             const query = 'select * from "user" where username = $1'
             const values = [username];
@@ -31,7 +31,7 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 
-    async getUserById(id: number): Promise<User> {
+    async getUserById(id: number): Promise<User | null> {
         try {
             const query = 'select * from "user" where id = $1'
             const values = [id];
@@ -45,3 +45,5 @@ class UserRepository implements UserRepositoryInterface {
         }
     }
 }
+
+export default UserRepository;

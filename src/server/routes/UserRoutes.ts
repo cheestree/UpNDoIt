@@ -1,12 +1,16 @@
 import UserController from "../controllers/UserController";
 import UserServices from "../services/UserServices";
 import {Router} from "express";
+import { UserRegisterInputModelValidation } from '../models/user/input/UserRegisterInputModel'
+import { ValidateInput } from '../middlewares/ValidateInput'
+import { UserLoginInputModelValidation } from '../models/user/input/UserLoginInputModel'
 
 const userRouter: Router  = Router()
-const userController: UserController = new UserController(UserServices);
+const userServices = new UserServices()
+const userController: UserController = new UserController(userServices);
 
-userRouter.post('/login', userController.login);
+userRouter.post('/login', UserLoginInputModelValidation, ValidateInput, userController.login);
 userRouter.post('/logout', userController.logout);
-userRouter.post('/register', userController.register);
+userRouter.post('/register', UserRegisterInputModelValidation, ValidateInput, userController.register);
 
 export default userRouter;
