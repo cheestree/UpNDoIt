@@ -1,8 +1,8 @@
-import {TaskRepositoryInterface} from "../../models/tasks/TaskRepositoryInterface";
 import {Task} from "../../models/tasks/Task";
 import {Pool} from "pg";
 import dotenv from "dotenv";
 import {TaskInputModel} from "../../models/tasks/input/TaskInputModel";
+import {TaskRepositoryInterface} from "./TaskRepositoryInterface";
 
 class TaskRepository implements TaskRepositoryInterface {
     private pool;

@@ -1,6 +1,4 @@
-import {UserServicesInterface} from "../models/user/UserServicesInterface";
-
-class UserServices implements UserServicesInterface {
+class UserServices {
 
 }
 

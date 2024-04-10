@@ -1,11 +1,10 @@
-import {TaskServicesInterface} from "../models/tasks/TaskServicesInterface";
 import TaskRepository from "../repository/tasks/TaskRepository";
 import {InternalServerError, NotFoundError} from "../models/error/Error";
 import moment from 'moment-timezone';
 import {TaskInputModel} from "../models/tasks/input/TaskInputModel";
 import {Task} from "../models/tasks/Task";
 
-class TaskServices implements TaskServicesInterface {
+class TaskServices {
     private repo: TaskRepository
     constructor() {
         this.repo = new TaskRepository();

@@ -1,10 +1,9 @@
-import {UserServicesInterface} from "../models/user/UserServicesInterface";
 import {RequestHandler} from "express";
-import {UserControllerInterface} from "../models/user/UserControllerInterface";
+import UserServices from "../services/UserServices";
 
-class UserController implements UserControllerInterface {
-    private services: UserServicesInterface;
-    constructor(services: UserServicesInterface) {
+class UserController {
+    private services: UserServices;
+    constructor(services: UserServices) {
         this.services = services
     }
     login: RequestHandler = ((req, res, next) => {
