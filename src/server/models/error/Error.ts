@@ -25,7 +25,17 @@ export class BadRequestError extends Error {
     }
 }
 
+export class Unauthorized extends Error {
+    status: number;
+    constructor(message: string) {
+        super()
+        this.name = 'Unauthorized';
+        this.status = 401;
+    }
+}
+
 export default {
     NotFoundError,
-    InternalServerError
+    InternalServerError,
+    Unauthorized
 };

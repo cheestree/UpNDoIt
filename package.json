@@ -11,18 +11,22 @@
   "license": "ISC",
   "dependencies": {
     "@formkit/themes": "^0.17.1",
-    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.6",
     "@types/pg": "^8.11.5",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "eslint": "^8.57.0",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",

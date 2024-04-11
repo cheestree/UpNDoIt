@@ -7,7 +7,8 @@ create table if not exists undi.user
     id       int generated always as identity primary key,
     username varchar(24) unique                                                                                                                                   not null,
     email    text check (email ~
-                         '^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$') not null not null not null
+                         '^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$') not null not null not null,
+    password varchar(60) not null
 );
 
 create table if not exists undi.tasks

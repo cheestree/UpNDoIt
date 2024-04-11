@@ -3,12 +3,13 @@ import TaskController from "../controllers/TaskController";
 import TaskServices from "../services/TaskServices";
 import {ValidateInput} from "../middlewares/ValidateInput";
 import { TaskInputModelValidation } from '../models/tasks/input/TaskInputModel'
+import { Authenticator } from '../middlewares/Authenticator'
 
 const taskRouter: Router  = Router()
 const taskServices: TaskServices = new TaskServices();
 const taskController: TaskController = new TaskController(taskServices);
 
-taskRouter.post('', TaskInputModelValidation, ValidateInput, taskController.createTask);
+taskRouter.post('', Authenticator, TaskInputModelValidation, ValidateInput, taskController.createTask);
 taskRouter.get('/:taskId', taskController.getTask);
 
 export default taskRouter;

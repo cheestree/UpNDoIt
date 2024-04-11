@@ -18,26 +18,21 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  let res1 = await fetch('http://localhost:25565/checkauth', {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+  let response = await fetch('http://localhost:3000/api/user/auth', {
+    method: "GET",
+    headers: { "Content-Type": "application/json", },
     credentials: "include",
-  })
-  let response = await res1.json()
+  }).then(res => res.json())
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   if(to.name){
     NProgress.start()
     if (requiresAuth && !response.success) {
       next('/login')
-    } else {
-      if (!requiresAuth && response.success) {
-        next('/auth/home')
-      } else {
-        next();
-      }
     }
+    if (!requiresAuth && response.success) {
+      next('/auth/home')
+    }
+    next();
   }
 });
 

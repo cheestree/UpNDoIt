@@ -30,7 +30,6 @@ class UserRepository implements UserRepositoryInterface {
             return null;
         }
     }
-
     async getUserById(id: number): Promise<User | null> {
         try {
             const query = 'select * from "user" where id = $1'
@@ -43,6 +42,14 @@ class UserRepository implements UserRepositoryInterface {
             console.error('Error fetching task:', error);
             return null;
         }
+    }
+    async createUser(username: string, password: string, email: string): Promise<number> {
+        const query = 'insert into "user"(username, password, email) values ($1, $2, $3) returning id'
+        const values = [username, password, email];
+
+        const result = await this.pool.query(query, values);
+
+        return result.rows[0].id;
     }
 }
 

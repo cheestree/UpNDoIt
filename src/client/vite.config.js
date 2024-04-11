@@ -8,16 +8,17 @@ dns.setDefaultResultOrder('verbatim')
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  devServer: {
+  plugins: [vue()],
+  server: {
     proxy: {
-      '/': {
-        origin: 'http://localhost:25565'
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
       }
     }
   }

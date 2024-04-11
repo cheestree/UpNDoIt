@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction, ErrorRequestHandler} from 'express';
-import { InternalServerError, NotFoundError } from "../models/error/Error";
+import { InternalServerError, NotFoundError, Unauthorized } from '../models/error/Error'
 
 export const ErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Content-Type', 'application/problem+json');
@@ -17,6 +17,10 @@ export const ErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res:
         case InternalServerError:
             statusCode = (err as InternalServerError).status;
             errorMessage = (err as InternalServerError).name;
+            break;
+        case Unauthorized:
+            statusCode = (err as Unauthorized).status;
+            errorMessage = (err as Unauthorized).name;
             break;
         default:
             statusCode = 500;
