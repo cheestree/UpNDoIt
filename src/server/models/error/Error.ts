@@ -28,7 +28,7 @@ export class BadRequestError extends Error {
 export class Unauthorized extends Error {
     status: number;
     constructor(message: string) {
-        super()
+        super(message)
         this.name = 'Unauthorized';
         this.status = 401;
     }

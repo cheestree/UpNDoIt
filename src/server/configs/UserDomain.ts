@@ -1,27 +1,35 @@
-import * as jose from 'jose'
-import { genSalt, hash, compare } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
+import {sign, verify} from "jsonwebtoken";
+import {Credentials} from "../models/user/Credentials";
 
 export class UserDomain {
-    constructor() {
-
-    }
     getExpireTime(hours: number = 2): number {
         const millisecondsInHour: number = 3600000;
         return hours * millisecondsInHour;
     }
+    async createToken(username: string, password: string, expiration: number): Promise<string> {
+        const secretKey: string = process.env.JWT_SECRET || "my-secret";
+        const payload: Credentials = {
+            username: username,
+            password: password
+        };
+        const option = { expiresIn: expiration };
 
-    async createToken(user: string, password: string, expiration: number): Promise<string> {
-        const secret = jose.base64url.decode(process.env.PASSWORD_SECRET || 'ABCD')
-        return await new jose.EncryptJWT({ user: user, password: password })
-          .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-          .setExpirationTime(expiration+'h')
-          .encrypt(secret);
+        return sign(payload, secretKey, option);
     }
+
+    async validateToken(token: string): Promise<Credentials | null> {
+        try {
+            const secretKey: string = process.env.JWT_SECRET_KEY || "my-secret";
+            return verify(token, secretKey) as Credentials;
+        } catch (err) {
+            return null;
+        }
+    }
+
+
     async hashPassword(password: string): Promise<string> {
-        const saltRounds = 10;
-        const salt = await genSalt(saltRounds);
-        const hashedPassword = await hash(password, salt);
-        return hashedPassword;
+        return hash(password, 10);
     }
     async verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
         return await compare(password, hashedPassword);

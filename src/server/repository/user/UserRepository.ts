@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import {Pool} from "pg";
 import {UserRepositoryInterface} from "./UserRepositoryInterface";
 import {User} from "../../models/user/User";
@@ -7,7 +6,6 @@ class UserRepository implements UserRepositoryInterface {
     private pool;
 
     constructor() {
-        dotenv.config()
         this.pool = new Pool({
             user: process.env.DB_USER,
             host: process.env.DB_HOST,

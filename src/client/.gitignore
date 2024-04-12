@@ -26,3 +26,10 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+*.tsbuildinfo
+
+test-results/
+playwright-report/
+
+/idea

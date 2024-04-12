@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import NavBarForAuth from '../components/auth/NavBarForAuth.vue';
 
 import Weather from '../components/auth/WeatherView.vue'

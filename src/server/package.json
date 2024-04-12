@@ -4,17 +4,17 @@
   "description": "Just do it",
   "main": "server.js",
   "scripts": {
-    "dev": "npx ts-node src/server/Server.ts",
+    "dev": "dotenvx run -- npx ts-node Server.ts",
     "lint": "eslint . --ext .ts"
   },
   "author": "DQTree",
   "license": "ISC",
   "dependencies": {
     "@formkit/themes": "^0.17.1",
-    "dotenv": "^16.0.3",
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^0.32.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
@@ -32,6 +32,7 @@
     "express-async-handler": "^1.2.0",
     "express-validator": "^7.0.1",
     "jose": "^5.2.4",
+    "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.45",
     "nodemon": "^3.1.0",
     "pg": "^8.11.5",

@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import NavBarForAll from '../components/unauth/NavBarForAll.vue'
 
 import About from '../components/unauth/AboutView.vue';

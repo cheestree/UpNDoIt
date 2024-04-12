@@ -1,6 +1,5 @@
 import {Task} from "../../models/tasks/Task";
 import {Pool} from "pg";
-import dotenv from "dotenv";
 import {TaskInputModel} from "../../models/tasks/input/TaskInputModel";
 import {TaskRepositoryInterface} from "./TaskRepositoryInterface";
 
@@ -8,7 +7,6 @@ class TaskRepository implements TaskRepositoryInterface {
     private pool;
 
     constructor() {
-        dotenv.config()
         this.pool = new Pool({
             user: process.env.DB_USER,
             host: process.env.DB_HOST,

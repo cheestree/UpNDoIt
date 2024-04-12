@@ -11,13 +11,10 @@ class UserController {
     login: RequestHandler = async (req, res, next) => {
         try {
             const loginCreds: UserLoginInputModel = req.body
-            const [token, expire] = await this.services.login(loginCreds)
-            res.status(200).cookie('token', token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: expire
-            }).json({ token: token });
+            const [token, options] = await this.services.login(loginCreds)
+            res.status(200).cookie('token', token, options).json({ token: token });
         } catch (error) {
+            console.log(error)
             next(error);
         }
     }

@@ -1,21 +1,24 @@
-<script setup>
-import { useRouter } from 'vue-router';
+<script setup lang="ts">
+  import { useRouter } from 'vue-router';
+  import UserServices from "@/services/UserServices";
+  import Requests from "@/services/requests/Requests";
 
-const router = useRouter();
-
-async function login(fields) {
-  let res = await fetch('http://localhost:3000/api/user/login', {
-    method: "POST",
-    headers: { "Content-Type": "application/json", },
-    credentials: "include",
-    body: JSON.stringify(fields),
-  });
-  if (res.status == '200') {
-    await router.push('/auth/home');
-  } else {
-    alert("Something went wrong making your account");
+  type credentials = {
+    username: string;
+    password: string;
   }
-}
+
+  const router = useRouter();
+  const userServices = new UserServices(new Requests, "/api/user");
+  async function login(fields: credentials) {
+    const login = await userServices.login(fields.username, fields.password);
+    if(login && login.ok) {
+      await router.push('/auth/home')
+    } else {
+      await router.push('/login')
+    }
+  }
+
 </script>
 
 <template>
