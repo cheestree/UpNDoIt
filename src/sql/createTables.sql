@@ -2,7 +2,7 @@ begin transaction;
 
 create schema if not exists undi;
 
-create table if not exists undi.user
+create table if not exists undi.account
 (
     id       int generated always as identity primary key,
     username varchar(24) unique                                                                                                                                   not null,
@@ -20,7 +20,7 @@ create table if not exists undi.tasks
     title       varchar(32) not null,
     public      bool default false,
     description varchar(512),
-    foreign key (created_by) references undi.user (id)
+    foreign key (created_by) references undi.account (id)
 );
 
 end;

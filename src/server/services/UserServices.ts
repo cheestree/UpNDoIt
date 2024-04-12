@@ -34,7 +34,9 @@ class UserServices {
     */
     async register(register: UserRegisterInputModel): Promise<number> {
         const hashedPassword = await this.domain.hashPassword(register.password)
-        return await this.repo.createUser(register.username, hashedPassword, register.email)
+        const id =  await this.repo.createUser(register.username, hashedPassword, register.email)
+        if(id == null) throw new BadRequestError("Something happened while registering")
+        return id
     }
     async checkAuth(token: string): Promise<Credentials | null> {
         return await this.domain.validateToken(token)

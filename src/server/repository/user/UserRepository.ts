@@ -17,37 +17,42 @@ class UserRepository implements UserRepositoryInterface {
 
     async getUserByUsername(username: string): Promise<User | null> {
         try {
-            const query = 'select * from "user" where username = $1'
+            const query = 'select * from undi.account where username = $1'
             const values = [username];
 
             const result = await this.pool.query(query, values);
 
             return result.rows[0] as User;
         } catch (error) {
-            console.error('Error fetching task:', error);
+            console.error(error);
             return null;
         }
     }
     async getUserById(id: number): Promise<User | null> {
         try {
-            const query = 'select * from "user" where id = $1'
+            const query = 'select * from undi.account where id = $1'
             const values = [id];
 
             const result = await this.pool.query(query, values);
 
             return result.rows[0] as User;
         } catch (error) {
-            console.error('Error fetching task:', error);
+            console.error(error);
             return null;
         }
     }
-    async createUser(username: string, password: string, email: string): Promise<number> {
-        const query = 'insert into "user"(username, password, email) values ($1, $2, $3) returning id'
-        const values = [username, password, email];
+    async createUser(username: string, password: string, email: string): Promise<number | null> {
+        try {
+            const query = 'insert into undi.account(username, email, password) values ($1, $2, $3) returning id'
+            const values = [username, email, password];
 
-        const result = await this.pool.query(query, values);
+            const result = await this.pool.query(query, values);
 
-        return result.rows[0].id;
+            return result.rows[0].id;
+        } catch (e) {
+            console.log(e)
+            return null;
+        }
     }
 }
 

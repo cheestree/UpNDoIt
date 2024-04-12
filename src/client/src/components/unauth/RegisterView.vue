@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import Requests from "@/services/requests/Requests";
 
 const router = useRouter();
+const fetches = new Requests();
 
-async function register(fields) {
+type Register = {
+  username: string
+  email: string
+  password: string
+}
+
+async function register(fields: Register) {
   try {
-    let res = await fetch('http://localhost:3000/api/user/register', {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fields),
-    });
-    if (res) {
-      router.push('/home');
+    let response = await fetches.post('http://localhost:5000/api/user/register', false, JSON.stringify(fields))
+    if (response.status == 201) {
+      await router.push('/home');
     } else {
       alert("Something went wrong making your account");
     }
@@ -38,8 +42,6 @@ async function register(fields) {
               }" placeholder="Your password" />
           <FormKit type="email" name="email" id="email" validation="required|not:Admin" label="Email"
                    placeholder="Insert your email" />
-          <FormKit type="password" name="password_confirm" id="password" label="Confirm password"
-            placeholder="Confirm password" validation="required|confirm" />
         </div>
       </FormKit>
       <small>Already have an account? <RouterLink to="/login">Login here!

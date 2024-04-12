@@ -12,7 +12,7 @@ export default {
     async addTask(fields) {
       const today = new Date(Date.now());
       fields.taskdate = today
-      await fetch('http://localhost:25565/taskadd', {
+      await fetch('http://localhost:25565/api/task', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -21,15 +21,14 @@ export default {
       this.tasks = await this.getTasks()
     },
     async getTasks() {
-      let tasksget = await fetch('http://localhost:25565/taskgetall', { credentials: "include" })
+      let tasksget = await fetch('http://localhost:25565/api/tasks', { credentials: "include" })
       const tasks = await tasksget.json()
       return tasks
     },
-    async deleteTask(taskid) {
-      await fetch('http://localhost:25565/taskdelete', {
+    async deleteTask(task_id) {
+      await fetch('http://localhost:25565/api/task/'+task_id, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ taskid: taskid })
+        headers: { "Content-Type": "application/json" }
       })
       this.tasks = await this.getTasks()
     }
@@ -57,14 +56,10 @@ export default {
     </div>
     <div class="taskcard">
       <TransitionGroup name="taskcardform" tag="div" class="taskcardanimate">
-        <h1>New Task</h1>
-        <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="addTask" :submit-attrs="{
-          ignore: false
-        }">
-          <FormKit type="text" name="taskname" id="taskname" validation="required|not:Admin" label="Task name"
-            placeholder="School" />
-          <FormKit type="textarea" name="taskdesc" id="taskdesc" validation="required|not:Admin" label="Task description"
-            placeholder="Do homework" />
+        <h1 key="title">New Task</h1>
+        <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="addTask" :submit-attrs="{ ignore: false }" key="form">
+          <FormKit type="text" name="taskname" id="taskname" validation="required|not:Admin" label="Task name" placeholder="School" key="taskname"/>
+          <FormKit type="textarea" name="taskdesc" id="taskdesc" validation="required|not:Admin" label="Task description" placeholder="Do homework" key="taskdesc"/>
         </FormKit>
       </TransitionGroup>
     </div>
