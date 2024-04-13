@@ -10,6 +10,7 @@
 
   const router = useRouter();
   const userServices = new UserServices(new Requests, "/api/user");
+
   async function login(fields: credentials) {
     const login = await userServices.login(fields.username, fields.password);
     if(login && login.ok) {

@@ -11,7 +11,7 @@ create table if not exists undi.account
     password varchar(60) not null
 );
 
-create table if not exists undi.tasks
+create table if not exists undi.task
 (
     id          serial,
     created_by  int,

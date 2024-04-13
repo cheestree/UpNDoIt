@@ -1,4 +1,4 @@
-import TaskRepository from "../repository/tasks/TaskRepository";
+import TaskRepository from "../repository/task/TaskRepository";
 import {InternalServerError, NotFoundError} from "../models/error/Error";
 import moment from 'moment-timezone';
 import {TaskInputModel} from "../models/tasks/input/TaskInputModel";
@@ -19,6 +19,12 @@ class TaskServices {
         const taskId = await this.repo.createTask(user, created_at, task);
         if(taskId == null) throw new InternalServerError("Task not created");
         return taskId;
+    }
+    async getTasks(user: number): Promise<Task[]> {
+        return await this.repo.getTasks(user)
+    }
+    async deleteTask(user: number, taskId: number): Promise<boolean> {
+        return await this.repo.deleteTask(user, taskId);
     }
 }
 

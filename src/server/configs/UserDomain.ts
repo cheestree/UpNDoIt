@@ -7,9 +7,10 @@ export class UserDomain {
         const millisecondsInHour: number = 3600000;
         return hours * millisecondsInHour;
     }
-    async createToken(username: string, password: string, expiration: number): Promise<string> {
+    async createToken(id: number, username: string, password: string, expiration: number): Promise<string> {
         const secretKey: string = process.env.JWT_SECRET || "my-secret";
         const payload: Credentials = {
+            id: id,
             username: username,
             password: password
         };
@@ -20,7 +21,7 @@ export class UserDomain {
 
     async validateToken(token: string): Promise<Credentials | null> {
         try {
-            const secretKey: string = process.env.JWT_SECRET_KEY || "my-secret";
+            const secretKey: string = process.env.JWT_SECRET || "my-secret";
             return verify(token, secretKey) as Credentials;
         } catch (err) {
             return null;

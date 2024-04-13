@@ -13,12 +13,13 @@ type Register = {
 
 async function register(fields: Register) {
   try {
-    let response = await fetches.post('http://localhost:5000/api/user/register', false, JSON.stringify(fields))
-    if (response.status == 201) {
-      await router.push('/home');
-    } else {
-      alert("Something went wrong making your account");
-    }
+    await fetches.post('/api/user/register', false, JSON.stringify(fields)).then(async (result) => {
+      if (result.status == 201) {
+        await router.push('/home');
+      } else {
+        alert("Something went wrong making your account");
+      }
+    })
   } catch (error) {
     console.error(error);
     alert("An error occurred while making your account");

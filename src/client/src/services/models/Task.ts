@@ -8,4 +8,8 @@ export type Task = {
     description: string
 }
 
-export type TaskArray = Task[];
+export type TaskAdd = {
+    title: string,
+    description: string,
+    public: boolean
+}

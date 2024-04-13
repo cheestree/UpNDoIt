@@ -3,18 +3,25 @@ import HomeView from "@/views/HomeView.vue";
 import HomeAuthView from "@/views/HomeAuthView.vue";
 
 const router = createRouter({
-  history: createWebHistory(
+    history: createWebHistory(
       //  import.meta.env.BASE_URL
-  ),
-  routes: [
+    ),
+    routes: [
     { path: '/home', name: 'home', component: HomeView, meta: { requiresAuth: false  } },
     { path: '/about', name: 'about', component: HomeView, meta: { requiresAuth: false  } },
     { path: '/login', name: 'login', component: HomeView, meta: { requiresAuth: false } },
     { path: '/register', name: 'register', component: HomeView, meta: { requiresAuth: false  } },
-    { path: '/auth/home', name: 'authhome', component: HomeAuthView, meta: { requiresAuth: true } },
-    { path: '/auth/apps/weather', name: 'weather', component: HomeAuthView, meta: { requiresAuth: true } },
-    { path: '/auth/apps/taskmanager', name: 'taskmanager', component: HomeAuthView, meta: { requiresAuth: true } }
-  ]
+        {
+            path: '/auth',
+            component: HomeAuthView,
+            meta: { requiresAuth: true },
+            children: [
+                { path: 'home', name: 'authhome', component: HomeAuthView },
+                { path: 'apps/weather', name: 'weather', component: HomeAuthView },
+                { path: 'apps/taskmanager', name: 'taskmanager', component: HomeAuthView }
+            ]
+        }
+    ]
 })
 
 
@@ -27,8 +34,7 @@ router.beforeEach(async (to, from, next) => {
                     headers: { "Content-Type": "application/json" },
                     credentials: "include"
                 });
-                const isSuccess = response.status === 200;
-                if (isSuccess) {
+                if (response.ok) {
                     next();
                 } else {
                     alert("You need to log in to access this page.");

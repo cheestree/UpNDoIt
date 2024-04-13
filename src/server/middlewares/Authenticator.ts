@@ -11,9 +11,8 @@ export const Authenticator: RequestHandler = async (req, res, next) => {
 
     try {
         const credential = await services.checkAuth(token);
-
         if (credential) {
-            res.cookie('token', credential);
+            res.setHeader('user', credential.id);
             return next();
         }
         return res.send("token invalid");

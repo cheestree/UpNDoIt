@@ -1,36 +1,32 @@
 <script lang="ts">
+import TaskServices from "@/services/TaskServices";
+import Requests from "@/services/requests/Requests";
+import type {Task, TaskAdd} from "@/services/models/Task";
+
+const services = new TaskServices(new Requests(), '/api/task');
+
 export default {
   data() {
     return {
-      tasks: null
+      tasks: [] as Task[]
     }
   },
   async created() {
-    this.tasks = await this.getTasks()
+    await this.getTasks();
   },
   methods: {
-    async addTask(fields) {
-      const today = new Date(Date.now());
-      fields.taskdate = today
-      await fetch('http://localhost:25565/api/task', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(fields)
-      })
-      this.tasks = await this.getTasks()
+    async addTask(taskToAdd: TaskAdd) {
+      await services.addTask(taskToAdd.title, taskToAdd.description)
+      await this.getTasks()
     },
     async getTasks() {
-      let tasksget = await fetch('http://localhost:25565/api/tasks', { credentials: "include" })
-      const tasks = await tasksget.json()
-      return tasks
-    },
-    async deleteTask(task_id) {
-      await fetch('http://localhost:25565/api/task/'+task_id, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
+      await services.getTasks().then((responseTasks: Task[]) => {
+        this.tasks = responseTasks;
       })
-      this.tasks = await this.getTasks()
+    },
+    async deleteTask(taskId: number) {
+      await services.deleteTask(taskId)
+      await this.getTasks();
     }
   }
 }
@@ -47,9 +43,9 @@ export default {
         <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="addTask" :submit-attrs="{
           ignore: false
         }">
-          <FormKit type="text" name="taskname" id="taskname" validation="required|not:Admin" label="Task name"
+          <FormKit type="text" name="taskname" id="name" validation="required|not:Admin" label="Task name"
             placeholder="School" />
-          <FormKit type="textarea" name="taskdesc" id="taskdesc" validation="required|not:Admin" label="Task description"
+          <FormKit type="textarea" name="taskdesc" id="description" validation="required|not:Admin" label="Task description"
             placeholder="Do homework" />
         </FormKit>
       </div>
@@ -65,13 +61,13 @@ export default {
     </div>
     <div class="taskcontainer">
       <TransitionGroup name="list" tag="div" class="taskcontaineranimate">
-        <div class="taskindiv" v-for="(task) in tasks" :key="task.taskid">
+        <div class="taskindiv" v-for="task in tasks as Task[]" :key="task.id">
           <div id="taskindivname">
-            <h1>{{ task.taskname }}</h1>
+            <h1>{{ task.title }}</h1>
           </div>
-          Description : <div id="taskindivdesc">{{ task.taskdescription }}</div>
-          Made in<p>{{ task.taskdate }}</p>
-          <button id="taskdelete" @click="deleteTask(task.taskid)">Delete</button>
+          Description : <div id="taskindivdesc">{{ task.description }}</div>
+          Made in<p>{{ task.created_at }}</p>
+          <button id="taskdelete" @click="deleteTask(task.id)">Delete</button>
         </div>
       </TransitionGroup>
     </div>

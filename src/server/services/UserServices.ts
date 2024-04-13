@@ -18,7 +18,7 @@ class UserServices {
 
         if(!await this.domain.verifyPassword(login.password, user.password)) throw new BadRequestError("Password doesnt match")
 
-        const tokenPromise = await this.domain.createToken(login.username, login.password, this.domain.getExpireTime());
+        const tokenPromise = await this.domain.createToken(user.id, login.username, login.password, this.domain.getExpireTime());
         const expireTime = this.domain.getExpireTime();
         const options = {
             httpOnly: true,

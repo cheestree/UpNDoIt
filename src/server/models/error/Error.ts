@@ -21,7 +21,7 @@ export class BadRequestError extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'Bad request';
-        this.status = 405;
+        this.status = 400 ;
     }
 }
 
@@ -37,5 +37,6 @@ export class Unauthorized extends Error {
 export default {
     NotFoundError,
     InternalServerError,
+    BadRequestError,
     Unauthorized
 };

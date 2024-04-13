@@ -10,6 +10,8 @@ const taskServices: TaskServices = new TaskServices();
 const taskController: TaskController = new TaskController(taskServices);
 
 taskRouter.post('', Authenticator, TaskInputModelValidation, ValidateInput, taskController.createTask);
-taskRouter.get('/:taskId', taskController.getTask);
+taskRouter.get('/:taskId', Authenticator, taskController.getTask);
+taskRouter.get('/search', Authenticator, taskController.getTasks);
+taskRouter.delete('/:taskId', Authenticator, taskController.deleteTask);
 
 export default taskRouter;

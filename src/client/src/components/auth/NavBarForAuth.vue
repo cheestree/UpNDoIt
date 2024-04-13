@@ -1,38 +1,29 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
+import Requests from "@/services/requests/Requests";
+
 const router = useRouter();
+const fetch = new Requests();
 
 async function logout() {
-  await fetch('http://localhost:25565/logout', { method: 'POST', credentials: "include" })
-  router.push('/home');
+  await fetch.post('/api/user/logout', true, null).then(async (response) => {
+    if(response != undefined && response.ok) await router.push('/home');
+  })
 }
 </script>
 
 <template>
   <nav id="navbarcontainer">
     <ul id="navbar">
-      <div class="navbaritem">
-        <RouterLink to="/auth/home">Home</RouterLink>
-      </div>
-      <div class="dropdown">
-        <div class="navbaritem">
+      <RouterLink to="/auth/home">Home</RouterLink>
+        <div class="dropdown">
           <a style="user-select:none">Services<span class="material-symbols-outlined">expand_more</span></a>
           <div class="dropdown-content">
-            <div class="navbaritem">
               <RouterLink to="/auth/apps/weather">Weather</RouterLink>
-            </div>
-            <div class="navbaritem">
               <RouterLink to="/auth/apps/taskmanager">Tasks</RouterLink>
-            </div>
           </div>
         </div>
-      </div>
-      <div class="navbaritem">
-
-      </div>
-      <div class="navbaritem">
-        <RouterLink to="/home" @click="logout()">Logout</RouterLink>
-      </div>
+      <RouterLink to="/home" @click="logout()">Logout</RouterLink>
     </ul>
   </nav>
 </template>

@@ -1,10 +1,8 @@
-import {Request, Response, NextFunction, ErrorRequestHandler} from 'express';
-import { InternalServerError, NotFoundError, Unauthorized } from '../models/error/Error'
+import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import {BadRequestError, InternalServerError, NotFoundError, Unauthorized} from '../models/error/Error'
 
-export const ErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+const ErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Content-Type', 'application/problem+json');
-
-    //  console.error('Unhandled error:', err);
 
     let statusCode: number;
     let errorMessage: string;
@@ -17,6 +15,10 @@ export const ErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res:
         case InternalServerError:
             statusCode = (err as InternalServerError).status;
             errorMessage = (err as InternalServerError).name;
+            break;
+        case BadRequestError:
+            statusCode = (err as BadRequestError).status;
+            errorMessage = (err as BadRequestError).name;
             break;
         case Unauthorized:
             statusCode = (err as Unauthorized).status;

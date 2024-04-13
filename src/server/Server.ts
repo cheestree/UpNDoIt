@@ -1,7 +1,7 @@
 import express, {Express, Router} from "express";
 import UserRoutes from "./routes/UserRoutes";
 import TaskRoutes from "./routes/TaskRoutes";
-import {ErrorHandler} from "./middlewares/ErrorHandler";
+import ErrorHandler from "./middlewares/ErrorHandler"
 import cookieParser from 'cookie-parser'
 import cors from 'cors';
 
@@ -17,9 +17,9 @@ const corsOptions = {
     credentials: true
 };
 
+app.use(cors(corsOptions));
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors(corsOptions));
 
 app.use('/api/task', taskRouter);
 app.use('/api/user', userRouter);

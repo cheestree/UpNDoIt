@@ -1,3 +1,3 @@
-drop table tasks;
-drop table "user";
+drop table task;
+drop table account;
 drop schema undi;
