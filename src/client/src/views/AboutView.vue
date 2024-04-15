@@ -1,10 +1,9 @@
 <template>
-  <div class="contentcontainer">
+  <div class="content-container">
     <div class="about">
-      <h1>This is the weather page!</h1>
+      <h1>This is an about page</h1>
     </div>
   </div>
 </template>
-  
+
 <style></style>
-  

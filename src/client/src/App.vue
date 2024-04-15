@@ -5,9 +5,13 @@
 </script>
 
 <template>
-  <body>
-    <div id="#app">
-      <RouterView />
-    </div>
-  </body>
+  <RouterView />
 </template>
+
+<style>
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+</style>

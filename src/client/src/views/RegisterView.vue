@@ -28,7 +28,7 @@ async function register(fields: Register) {
 </script>
 
 <template>
-  <div class="contentcontainer">
+  <div class="content-container">
     <div class="registercard">
       <h1>Register</h1>
       <FormKit type="form" id="registersubmit" submit-label="Register" @submit="register" :submit-attrs="{
@@ -52,7 +52,7 @@ async function register(fields: Register) {
 </template>
 
 <style>
-.contentcontainer {
+.content-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

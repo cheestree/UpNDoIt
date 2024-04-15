@@ -2,10 +2,14 @@
 import TaskServices from "@/services/TaskServices";
 import Requests from "@/services/requests/Requests";
 import type {Task, TaskAdd} from "@/services/models/Task";
+import TaskComponent from "@/components/task/TaskComponent.vue";
 
 const services = new TaskServices(new Requests(), '/api/task');
 
 export default {
+  components: {
+    TaskComponent
+  },
   data() {
     return {
       tasks: [] as Task[]
@@ -16,12 +20,13 @@ export default {
   },
   methods: {
     async addTask(taskToAdd: TaskAdd) {
-      await services.addTask(taskToAdd.title, taskToAdd.description)
+      await services.addTask(taskToAdd.title, taskToAdd.description, taskToAdd.public)
       await this.getTasks()
     },
     async getTasks() {
       await services.getTasks().then((responseTasks: Task[]) => {
-        this.tasks = responseTasks;
+        console.log(responseTasks);
+        this.tasks.splice(0, this.tasks.length, ...responseTasks);
       })
     },
     async deleteTask(taskId: number) {
@@ -33,50 +38,42 @@ export default {
 </script>
 
 <template>
-  <div class="contentcontainer">
-    <div class="taskaddhover">
-      <span class="material-symbols-outlined">
-      add
-      </span>
-      <div class="taskaddhovercontent">
-        <h1>New Task</h1>
-        <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="addTask" :submit-attrs="{
-          ignore: false
-        }">
-          <FormKit type="text" name="taskname" id="name" validation="required|not:Admin" label="Task name"
-            placeholder="School" />
-          <FormKit type="textarea" name="taskdesc" id="description" validation="required|not:Admin" label="Task description"
-            placeholder="Do homework" />
-        </FormKit>
-      </div>
-    </div>
-    <div class="taskcard">
-      <TransitionGroup name="taskcardform" tag="div" class="taskcardanimate">
-        <h1 key="title">New Task</h1>
-        <FormKit type="form" id="tasksubmit" submit-label="Add" @submit="addTask" :submit-attrs="{ ignore: false }" key="form">
-          <FormKit type="text" name="taskname" id="taskname" validation="required|not:Admin" label="Task name" placeholder="School" key="taskname"/>
-          <FormKit type="textarea" name="taskdesc" id="taskdesc" validation="required|not:Admin" label="Task description" placeholder="Do homework" key="taskdesc"/>
-        </FormKit>
-      </TransitionGroup>
-    </div>
-    <div class="taskcontainer">
-      <TransitionGroup name="list" tag="div" class="taskcontaineranimate">
-        <div class="taskindiv" v-for="task in tasks as Task[]" :key="task.id">
-          <div id="taskindivname">
-            <h1>{{ task.title }}</h1>
-          </div>
-          Description : <div id="taskindivdesc">{{ task.description }}</div>
-          Made in<p>{{ task.created_at }}</p>
-          <button id="taskdelete" @click="deleteTask(task.id)">Delete</button>
+  <div class="content-container">
+    <div class="task-container" v-if="tasks.length != 0">
+      <TransitionGroup name="list" tag="div" class="task-container-animate">
+        <div class="task-in-div" v-for="task in tasks" :key="task.id">
+          <TaskComponent
+              :description="task.description"
+              :created_at="task.created_at"
+              :modified_at="task.modified_at"
+              :title="task.title"
+              :isPublic="task.public"
+              :deleteTask="() => deleteTask(task.id)"
+          />
         </div>
       </TransitionGroup>
+    </div>
+    <div class="task-add-hover">
+      <span class="material-symbols-outlined task-add">
+      add
+      </span>
+      <div class="task-add-hover-content">
+        <FormKit type="form" id="task-submit" submit-label="Add" @submit="addTask" :submit-attrs="{ignore: false}">
+          <FormKit type="text" name="title" id="title" validation="required|not:Admin" label="Title"
+                   placeholder="School" />
+          <FormKit type="textarea" name="description" id="description" validation="required|not:Admin" label="Description"
+                   placeholder="Do homework" />
+          <FormKit type="checkbox" name="public" id="public" label="Public?" :value="true" />
+        </FormKit>
+      </div>
     </div>
   </div>
 </template>
 
 <style>
-.taskaddhover {
-  background-color: #F2DD72;
+.task-add-hover {
+  background-color: #7F669DFF;
+  border-radius: 30px;
   position: absolute;
   width: 25px;
   height: 25px;
@@ -85,14 +82,15 @@ export default {
   transition: 1s ease-in-out;
 }
 
-.taskaddhover:hover .taskaddhovercontent{
+.task-add-hover:hover .task-add-hover-content{
   width: 200px;
   height: 200px;
   opacity: 1;
   transform: translate(20px, 20px);
+  background: #7F669DFF;
 }
 
-.taskaddhovercontent {
+.task-add-hover-content {
   opacity: 0;
   width: 200px;
   height: 200px;
@@ -100,17 +98,17 @@ export default {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.contentcontainer {
+.content-container {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   flex-direction: column;
   align-content: center;
+  height: 100%;
 }
 
-.taskcontainer,
-.taskcontaineranimate {
+.task-container,
+.task-container-animate {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -119,7 +117,7 @@ export default {
   width: 100%;
 }
 
-.taskindiv {
+.task-in-div {
   color: var(--text);
   margin: 14px;
   background-color: var(--wbg);
@@ -132,7 +130,7 @@ export default {
   filter: drop-shadow(10px 10px 0px var(--wborder));
 }
 
-#taskindivdesc {
+#task-in-div-desc {
   overflow-wrap: break-word;
   height: 100px;
   overflow-y: auto;
@@ -158,7 +156,7 @@ export default {
 }
 
 /**/
-.taskcard {
+.task-card {
   transition: 1s ease-in 0.5s 1 scale-up-center;
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: scale-up-center 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
@@ -174,8 +172,8 @@ export default {
   align-self: center;
 }
 
-#taskname,
-#taskdesc {
+#task-name,
+#task-desc {
   background-color: transparent;
   border: 2px solid var(--wborder);
   border-radius: 5px;
@@ -187,7 +185,7 @@ export default {
 }
 
 [data-type="submit"] .formkit-input,
-#taskdelete {
+#task-delete {
   color: var(--text);
   font-family: inherit;
   background: var(--wborder) !important;

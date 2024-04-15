@@ -23,26 +23,24 @@
 </script>
 
 <template>
-  <div class="contentcontainer">
+  <div class="content-container">
     <div class="logincard">
       <h1>Login</h1>
-      <FormKit type="form" id="loginsubmit" submit-label="Login" @submit="login" :submit-attrs="{
-        ignore: false
-      }">
+      <FormKit type="form" id="loginsubmit" submit-label="Login" @submit="login" :submit-attrs="{ignore: false}">
         <FormKit type="text" name="username" id="username" validation="required|not:Admin" label="Username"
                  placeholder="Insert your username" />
         <FormKit type="password" name="password" id="password" validation="required|not:Admin" label="Password"
                  placeholder="Insert your password" />
       </FormKit>
-      <small>Don't have an account? <RouterLink to="/register">Make one here!
-        </RouterLink>
+      <small>
+        Don't have an account? <RouterLink to="/register">Make one here!</RouterLink>
       </small>
     </div>
   </div>
 </template>
 
 <style>
-.contentcontainer {
+.content-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

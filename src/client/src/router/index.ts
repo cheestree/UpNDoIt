@@ -1,24 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from "@/views/HomeView.vue";
-import HomeAuthView from "@/views/HomeAuthView.vue";
+import HomeView from "@/components/unauth/HomeView.vue";
+import HomeAuthView from "@/components/auth/HomeAuthView.vue";
+import TaskView from '@/views/TaskView.vue';
+import WeatherView from "@/views/WeatherView.vue";
 
 const router = createRouter({
-    history: createWebHistory(
-      //  import.meta.env.BASE_URL
-    ),
+    history: createWebHistory(),
     routes: [
-    { path: '/home', name: 'home', component: HomeView, meta: { requiresAuth: false  } },
-    { path: '/about', name: 'about', component: HomeView, meta: { requiresAuth: false  } },
-    { path: '/login', name: 'login', component: HomeView, meta: { requiresAuth: false } },
-    { path: '/register', name: 'register', component: HomeView, meta: { requiresAuth: false  } },
+        { path: '', redirect: '/home' },
+        {
+            path: '/',
+            component: HomeView,
+            meta: { requiresAuth: false },
+            children: [
+                { path: 'home', name: 'home', component: HomeView },
+                { path: 'about', name: 'about', component: HomeView },
+                { path: 'login', name: 'login', component: HomeView },
+                { path: 'register', name: 'register', component: HomeView },
+            ]
+        },
         {
             path: '/auth',
             component: HomeAuthView,
             meta: { requiresAuth: true },
             children: [
                 { path: 'home', name: 'authhome', component: HomeAuthView },
-                { path: 'apps/weather', name: 'weather', component: HomeAuthView },
-                { path: 'apps/taskmanager', name: 'taskmanager', component: HomeAuthView }
+                { path: 'apps/weather', name: 'weather', component: WeatherView },
+                { path: 'apps/task', name: 'task', component: TaskView }
             ]
         }
     ]

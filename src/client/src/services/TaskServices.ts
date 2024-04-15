@@ -5,14 +5,14 @@ class TaskServices {
     private requests: Requests;
     private readonly url: string;
 
-    constructor(requests: Requests, user_url: string) {
+    constructor(requests: Requests, task_url: string) {
         this.requests = requests;
-        this.url = user_url;
+        this.url = task_url;
     }
 
-    async addTask(name: string, description: string): Promise<Task> {
+    async addTask(name: string, desc: string, isPublic: boolean): Promise<Task> {
         try {
-            const response = await this.requests.post(this.url + '/task', true, { name, description });
+            const response = await this.requests.post(this.url + '', true, { title: name, description: desc, public: isPublic });
             if (response.body) {
                 const reader = response.body.getReader();
                 const result = await reader.read();
@@ -29,7 +29,7 @@ class TaskServices {
 
     async getTasks(): Promise<Task[]> {
         try {
-            const response = await this.requests.get(this.url + '/search', true);
+            const response = await this.requests.get(this.url + '/all/search', true);
             if (response.body) {
                 const reader = response.body.getReader();
                 const result = await reader.read();
@@ -45,7 +45,7 @@ class TaskServices {
     }
     async deleteTask(taskId: number): Promise<boolean> {
         try {
-            const response = await this.requests.delete(this.url + '/task/' + taskId, true);
+            const response = await this.requests.delete(this.url + '/' + taskId, true);
             return response.status == 200
         } catch (error) {
             console.error('Error deleting task:', error);

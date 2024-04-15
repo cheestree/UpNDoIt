@@ -16,7 +16,8 @@ class TaskRepository implements TaskRepositoryInterface {
         });
     }
     async getTaskById(id: number): Promise<Task | null> {
-        const query = 'select * from task where id = $1';
+        const query = 'select * from undi.task' +
+            ' where id = $1';
         const values = [id];
         const result = await this.pool.query(query, values);
 
@@ -26,7 +27,7 @@ class TaskRepository implements TaskRepositoryInterface {
 
     async createTask(user: number, created_at_time: string, task: TaskInputModel): Promise<number | null> {
         try {
-            const query = 'insert into task(created_by, created_at, title, public, description) values ($1, $2, $3, $4, $5)'
+            const query = 'insert into undi.task(created_by, created_at, title, public, description) values ($1, $2, $3, $4, $5) returning id'
             const values = [user, created_at_time, task.title, task.public, task.description];
 
             const result = await this.pool.query(query, values);
@@ -38,7 +39,7 @@ class TaskRepository implements TaskRepositoryInterface {
         }
     }
     async getTasks(user: number): Promise<Task[]>{
-        const query = 'select * from task where created_by = $1';
+        const query = 'select * from undi.task where created_by = $1';
         const values = [user];
 
         const result = await this.pool.query(query, values);
@@ -46,7 +47,7 @@ class TaskRepository implements TaskRepositoryInterface {
         return result.rows as Task[];
     }
     async deleteTask(user: number, taskId: number): Promise<boolean> {
-        const query = 'delete from task where id = $1 and created_by = $2';
+        const query = 'delete from undi.task where id = $1 and created_by = $2';
         const values = [taskId, user];
 
         const result = await this.pool.query(query, values);

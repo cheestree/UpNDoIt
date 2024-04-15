@@ -7,5 +7,6 @@ export const ValidateInput: RequestHandler = (req, res, next) => {
     if (errors.isEmpty()) {
         return next()
     }
+    console.log(errors)
     throw new BadRequestError("Input is not correct")
 }

@@ -20,7 +20,7 @@ async function logout() {
           <a style="user-select:none">Services<span class="material-symbols-outlined">expand_more</span></a>
           <div class="dropdown-content">
               <RouterLink to="/auth/apps/weather">Weather</RouterLink>
-              <RouterLink to="/auth/apps/taskmanager">Tasks</RouterLink>
+              <RouterLink to="/auth/apps/task">Tasks</RouterLink>
           </div>
         </div>
       <RouterLink to="/home" @click="logout()">Logout</RouterLink>
