@@ -1,58 +1,34 @@
-<script setup lang="ts">
-  import { useRouter } from 'vue-router';
-  import UserServices from "@/services/UserServices";
-  import Requests from "@/services/requests/Requests";
+<script lang="ts">
+export default {
+  name: "LoginView",
 
-  type credentials = {
-    username: string;
-    password: string;
-  }
-
-  const router = useRouter();
-  const userServices = new UserServices(new Requests, "/api/user");
-
-  async function login(fields: credentials) {
-    const login = await userServices.login(fields.username, fields.password);
-    if(login && login.ok) {
-      await router.push('/auth/home')
-    } else {
-      await router.push('/login')
-    }
-  }
+}
 
 </script>
 
 <template>
   <div class="content-container">
-    <div class="logincard">
+    <div class="login-card">
       <h1>Login</h1>
-      <FormKit type="form" id="loginsubmit" submit-label="Login" @submit="login" :submit-attrs="{ignore: false}">
+      <FormKit type="form" id="login-submit" submit-label="Login" @submit="" :submit-attrs="{ignore: false}">
         <FormKit type="text" name="username" id="username" validation="required|not:Admin" label="Username"
                  placeholder="Insert your username" />
         <FormKit type="password" name="password" id="password" validation="required|not:Admin" label="Password"
                  placeholder="Insert your password" />
       </FormKit>
-      <small>
-        Don't have an account? <RouterLink to="/register">Make one here!</RouterLink>
-      </small>
+      <small>Don't have an account? <RouterLink to="/register">Make one here!</RouterLink></small>
     </div>
   </div>
 </template>
 
 <style>
-.content-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
-.logincard {
+.login-card {
   transition: 1s ease-in 0.5s 1 scale-up-center;
   -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   color: var(--text);
-  margin: 10px;
-  margin-top: 10%;
+  margin: 10% 10px 10px;
   background-color: var(--wbg);
   width: fit-content;
   border-radius: 6px;
@@ -62,8 +38,7 @@
 }
 
 #username,
-#password,
-#email {
+#password {
   background-color: transparent;
   border: 2px solid var(--wborder);
   border-radius: 5px;

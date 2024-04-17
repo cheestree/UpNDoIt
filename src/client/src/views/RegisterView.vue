@@ -1,70 +1,70 @@
-<script setup lang="ts">
+<script lang="ts">
+import UserServices from "@/services/UserServices";
 import { useRouter } from 'vue-router';
 import Requests from "@/services/requests/Requests";
 
-const router = useRouter();
-const fetches = new Requests();
+export default {
+  name: "RegisterView",
+  data() {
+    return {
+      router: useRouter(),
+      userServices: new UserServices(new Requests(), "/api/user"),
+    }
+  },
+  methods: {
+    async register(fields: Register) {
+      try {
+        await this.userServices.register(fields.username, fields.password, fields.email).then(async (result) => {
+          if (result != undefined && result.status == 201) {
+            await this.router.push('/home');
+          } else {
+            alert("Something went wrong making your account");
+          }
+        })
+      } catch (error) {
+        console.error(error);
+        alert("An error occurred while making your account");
+      }
+    }
+  }
+}
 
 type Register = {
   username: string
   email: string
   password: string
 }
-
-async function register(fields: Register) {
-  try {
-    await fetches.post('/api/user/register', false, JSON.stringify(fields)).then(async (result) => {
-      if (result.status == 201) {
-        await router.push('/home');
-      } else {
-        alert("Something went wrong making your account");
-      }
-    })
-  } catch (error) {
-    console.error(error);
-    alert("An error occurred while making your account");
-  }
-}
 </script>
 
 <template>
   <div class="content-container">
-    <div class="registercard">
+    <div class="register-card">
       <h1>Register</h1>
-      <FormKit type="form" id="registersubmit" submit-label="Register" @submit="register" :submit-attrs="{
+      <FormKit type="form" id="register-submit" submit-label="Register" @submit="register" :submit-attrs="{
         ignore: false
       }">
         <FormKit type="text" name="username" id="username" validation="required" label="Username"
           placeholder="Insert your username" />
-        <div class="password">
-          <FormKit type="password" name="password" id="password" label="Password"
-            validation="required|length:6|matches:/[^a-zA-Z]/" :validation-messages="{
-                matches: 'Please include at least one symbol',
-              }" placeholder="Your password" />
-          <FormKit type="email" name="email" id="email" validation="required|not:Admin" label="Email"
-                   placeholder="Insert your email" />
-        </div>
+        <FormKit type="password" name="password" id="password" label="Password"
+          validation="required|length:6|matches:/[^a-zA-Z]/" :validation-messages="{
+              matches: 'Please include at least one symbol',
+            }" placeholder="Your password" />
+        <FormKit type="email" name="email" id="email" validation="required|not:Admin" label="Email"
+                 placeholder="Insert your email" />
       </FormKit>
-      <small>Already have an account? <RouterLink to="/login">Login here!
-        </RouterLink></small>
+      <small>Already have an account? <RouterLink to="/login">Login here!</RouterLink></small>
     </div>
   </div>
 </template>
 
 <style>
-.content-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
-.registercard {
+.register-card {
   transition: 1s ease-in 0.5s 1 scale-up-center;
   -webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
   color: var(--text);
-  margin: 10px;
-  margin-top: 10%;
+  margin: 10% 10px 10px;
   background-color: var(--wbg);
   width: fit-content;
   border-radius: 6px;

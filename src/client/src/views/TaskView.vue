@@ -98,15 +98,6 @@ export default {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.content-container {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-content: center;
-  height: 100%;
-}
-
 .task-container,
 .task-container-animate {
   display: flex;
@@ -121,9 +112,7 @@ export default {
   color: var(--text);
   margin: 14px;
   background-color: var(--wbg);
-  width: fit-content;
   width: 200px;
-  padding: 10px;
   border-radius: 6px;
   border: 4px solid var(--wborder);
   padding: 20px;
@@ -164,7 +153,6 @@ export default {
   margin: 10px;
   background-color: var(--wbg);
   width: fit-content;
-  padding: 10px;
   border-radius: 6px;
   border: 4px solid var(--wborder);
   padding: 20px;

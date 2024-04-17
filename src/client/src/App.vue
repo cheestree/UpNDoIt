@@ -1,11 +1,12 @@
 <script lang="ts">
   export default {
-    name: "App",
+    name: "App"
   };
 </script>
 
 <template>
-  <RouterView />
+  <router-view name="navbar"></router-view>
+  <router-view></router-view>
 </template>
 
 <style>
@@ -13,5 +14,13 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+.content-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  height: 100%;
 }
 </style>

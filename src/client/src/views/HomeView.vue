@@ -1,14 +1,11 @@
 <script lang="ts">
-
-import NavBarForAll from "@/components/unauth/NavBarForAll.vue";
-import AboutView from "@/views/AboutView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import AboutView from "@/views/AboutView.vue";
+import TaskView from "@/views/TaskView.vue";
+import WeatherView from "@/views/WeatherView.vue";
 
 export default {
-  components: {
-    NavBarForAll
-  },
   computed: {
     currentComponent() {
       switch (this.$route.path) {
@@ -18,6 +15,10 @@ export default {
           return LoginView;
         case '/register':
           return RegisterView
+        case '/auth/task':
+          return TaskView
+        case '/auth/weather':
+          return WeatherView
         default:
           return null;
       }
@@ -27,10 +28,5 @@ export default {
 </script>
 
 <template>
-  <div>
-    <NavBarForAll></NavBarForAll>
-    <div class="componentcontainer">
-      <component :is="currentComponent"></component>
-    </div>
-  </div>
+    <component :is="currentComponent"></component>
 </template>

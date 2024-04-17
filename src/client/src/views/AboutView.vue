@@ -1,3 +1,9 @@
+<script lang="ts">
+export default {
+  name: "AboutView"
+}
+</script>
+
 <template>
   <div class="content-container">
     <div class="about">

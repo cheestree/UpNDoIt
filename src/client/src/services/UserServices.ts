@@ -7,14 +7,21 @@ class UserServices {
         this.requests = requests;
         this.url = user_url;
     }
-    async login(username: string, password: string): Promise<Response | undefined> {
+    async login(username: string, password: string): Promise<Response> {
         return this.requests.post(this.url + '/login', true, { username: username, password: password });
     }
-    async logout(): Promise<void> {
-
+    async logout(): Promise<boolean> {
+        return await this.requests.post(this.url + '/logout', true, null).then(async (response) => {
+            return response.ok
+        })
     }
     async register(username: string, password: string, email: string): Promise<Response | undefined> {
         return this.requests.post(this.url + '/register', false, { username: username, password: password, email: email });
+    }
+    async checkAuth(): Promise<boolean> {
+        return this.requests.get(this.url + '/auth', true).then(async (response) => {
+            return response.ok
+        });
     }
 }
 
