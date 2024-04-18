@@ -1,7 +1,13 @@
 <script lang="ts">
+import {useAuthStore} from "@/store/authStore";
+
 export default {
   name: "LoginView",
-
+  data() {
+    return {
+      store: useAuthStore()
+    }
+  },
 }
 
 </script>
@@ -10,7 +16,7 @@ export default {
   <div class="content-container">
     <div class="login-card">
       <h1>Login</h1>
-      <FormKit type="form" id="login-submit" submit-label="Login" @submit="" :submit-attrs="{ignore: false}">
+      <FormKit type="form" id="login-submit" submit-label="Login" @submit="store.login" :submit-attrs="{ignore: false}">
         <FormKit type="text" name="username" id="username" validation="required|not:Admin" label="Username"
                  placeholder="Insert your username" />
         <FormKit type="password" name="password" id="password" validation="required|not:Admin" label="Password"
