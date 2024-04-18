@@ -1,8 +1,8 @@
-import {defineStore} from "pinia";
 import UserServices from "@/services/UserServices";
 import Requests from "@/services/requests/Requests";
 import {useRouter} from "vue-router";
 import type {Credentials} from "@/services/models/Credentials";
+import {defineStore} from "pinia";
 
 export const useAuthStore = defineStore('auth', {
     state() {
@@ -12,11 +12,6 @@ export const useAuthStore = defineStore('auth', {
             router: useRouter(),
         }
     },
-    getters: {
-      getIsAuthenticated(): Boolean {
-          return this.isAuthenticated
-      }
-    },
     actions: {
         async checkAuth() {
             await this.userServices.checkAuth().then(res => {
@@ -25,15 +20,23 @@ export const useAuthStore = defineStore('auth', {
         },
         async login(fields: Credentials) {
             await this.userServices.login(fields.username, fields.password).then(async res => {
+                let path: string;
+                let isAuth: boolean;
                 if (res.ok) {
-                    await this.router.push('/home')
+                    isAuth = true
+                    path = '/home'
                 } else {
-                    await this.router.push('/login')
+                    isAuth = false
+                    path = '/login'
                 }
+                this.isAuthenticated = isAuth
+                await this.router.push(path)
+
             });
         },
         async logout() {
             await this.userServices.logout().then(async () => {
+                this.isAuthenticated = false
                 await this.router.push('/login')
             })
         },

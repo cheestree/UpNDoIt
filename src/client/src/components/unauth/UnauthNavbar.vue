@@ -21,6 +21,7 @@ export default {
   <nav id="navbar-container">
     <ul id="navbar">
       <RouterLink to="/home">Home</RouterLink>
+      <RouterLink to="/register">Register</RouterLink>
       <RouterLink to="/login" >Login</RouterLink>
     </ul>
   </nav>

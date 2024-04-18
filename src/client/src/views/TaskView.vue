@@ -74,17 +74,12 @@ export default {
 .task-add-hover {
   background-color: #7F669DFF;
   border-radius: 30px;
-  position: absolute;
   width: 25px;
   height: 25px;
-  top: 1rem;
-  left: 1rem;
   transition: 1s ease-in-out;
 }
 
 .task-add-hover:hover .task-add-hover-content{
-  width: 200px;
-  height: 200px;
   opacity: 1;
   transform: translate(20px, 20px);
   background: #7F669DFF;

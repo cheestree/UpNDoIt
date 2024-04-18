@@ -2,7 +2,7 @@
 
 export default {
   props: {
-    created_at: Date,
+    created_at: String,
     modified_at: Date,
     title: String,
     isPublic: Boolean,
